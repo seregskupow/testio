@@ -7,8 +7,11 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-
+import { Exclude } from 'class-transformer';
 export class UserDto {
+  @IsOptional()
+  readonly id?: number;
+
   @IsNotEmpty()
   @IsString({ message: 'Name should be STRING type' })
   @MinLength(3)
@@ -20,6 +23,7 @@ export class UserDto {
   @IsEmail()
   readonly email: string;
 
+  @Exclude()
   @IsOptional()
   @IsString({ message: 'Password should be STRING type' })
   readonly password: string;
@@ -28,10 +32,12 @@ export class UserDto {
   @IsString({ message: 'Avatar should be STRING type' })
   readonly avatar: string;
 
+  @Exclude()
   @IsOptional()
   @IsString({ message: 'GoogleId should be STRING type' })
   readonly googleId?: string;
 
+  @Exclude()
   @IsOptional()
   @IsString({ message: 'GithubId should be STRING type' })
   readonly githubId?: string;

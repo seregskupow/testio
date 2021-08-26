@@ -11,20 +11,15 @@ export class AuthService {
   async validateUser(userEmail: string, pass: string) {
     // find if user exist with this email
     const user = await this.userService.findOneByEmail(userEmail);
-
     if (!user) {
       return null;
     }
-
     // find if user password match
     const match = await this.comparePassword(pass, user.password);
     if (!match) {
       return null;
     }
-
-    // tslint:disable-next-line: no-string-literal
-    const { id, email, avatar, name } = user['dataValues'];
-    return new SessionUserDto(id, email, name, avatar);
+    return user;
   }
 
   async createUser(user): Promise<SessionUserDto> {
@@ -38,12 +33,11 @@ export class AuthService {
     return new SessionUserDto(id, email, name, avatar);
   }
 
-  async validateUserGoogle(payload: googlePayload): Promise<SessionUserDto> {
+  async validateUserGoogle(payload: googlePayload): Promise<UserDto> {
     const { email, firstName: name, picture: avatar, googleId } = payload;
 
     const user = await this.userService.findOneByEmail(email);
-    if (user)
-      return new SessionUserDto(user.id, user.email, user.name, user.avatar);
+    if (user) return user;
 
     const newUser = await this.userService.create({
       email,
@@ -52,12 +46,7 @@ export class AuthService {
       avatar,
       googleId,
     });
-    return new SessionUserDto(
-      newUser.id,
-      newUser.email,
-      newUser.name,
-      newUser.avatar,
-    );
+    return newUser;
   }
 
   private async hashPassword(password) {
