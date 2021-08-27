@@ -4,7 +4,10 @@ import {
   Get,
   Param,
   UseInterceptors,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthenticatedGuard } from 'src/core/guards/authenticated.guard';
 import { NotFoundInterceptor } from 'src/core/interceptors/notFound.interceptor';
 import { UserDto } from './dto/user.dto';
 import { UsersService } from './users.service';
@@ -17,6 +20,13 @@ export class UsersController {
   @UseInterceptors(ClassSerializerInterceptor)
   async getAllUsers() {
     return await this.usersService.allUsers();
+  }
+
+  @Get('/me')
+  @UseGuards(AuthenticatedGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  getMe(@Request() req) {
+    return req.user;
   }
 
   @Get(':id')

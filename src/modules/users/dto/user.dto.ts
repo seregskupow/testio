@@ -23,10 +23,10 @@ export class UserDto {
   @IsEmail()
   readonly email: string;
 
-  @Exclude()
+  @Exclude({ toPlainOnly: true })
   @IsOptional()
   @IsString({ message: 'Password should be STRING type' })
-  readonly password: string;
+  readonly password?: string;
 
   @IsOptional()
   @IsString({ message: 'Avatar should be STRING type' })
@@ -41,4 +41,10 @@ export class UserDto {
   @IsOptional()
   @IsString({ message: 'GithubId should be STRING type' })
   readonly githubId?: string;
+
+  @Exclude({ toPlainOnly: true })
+  createdAt?: Date;
+
+  @Exclude({ toPlainOnly: true })
+  updatedAt?: Date;
 }

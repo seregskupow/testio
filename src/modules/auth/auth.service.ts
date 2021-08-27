@@ -8,7 +8,7 @@ import { googlePayload } from './types';
 @Injectable()
 export class AuthService {
   constructor(private readonly userService: UsersService) {}
-  async validateUser(userEmail: string, pass: string) {
+  async validateUser(userEmail: string, pass: string): Promise<UserDto> {
     // find if user exist with this email
     const user = await this.userService.findOneByEmail(userEmail);
     if (!user) {
@@ -22,15 +22,15 @@ export class AuthService {
     return user;
   }
 
-  async createUser(user): Promise<SessionUserDto> {
+  async createUser(user): Promise<UserDto> {
     // hash the password
     const pass = await this.hashPassword(user.password);
 
     // create the user
     const newUser = await this.userService.create({ ...user, password: pass });
 
-    const { id, email, avatar, name } = newUser['dataValues'];
-    return new SessionUserDto(id, email, name, avatar);
+    // return newUser;
+    return newUser;
   }
 
   async validateUserGoogle(payload: googlePayload): Promise<UserDto> {

@@ -14,6 +14,7 @@ import { AuthenticatedGuard } from 'src/core/guards/authenticated.guard';
 import { DoesUserExist } from 'src/core/guards/doesUserExist.guard';
 import { GoogleAuthGuard } from 'src/core/guards/googleAuth.guard';
 import { LocalAuthGuard } from 'src/core/guards/localAuth.guard';
+import { CreateUserDto } from '../users/dto/createUser.dto';
 import { UserDto } from '../users/dto/user.dto';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
@@ -33,13 +34,15 @@ export class AuthController {
   @UseGuards(DoesUserExist)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('signup')
-  async signUpSeeker(@Body() user: UserDto, @Request() req) {
+  async signUpSeeker(@Body() user: CreateUserDto, @Request() req) {
     const newUser = await this.authService.createUser(user);
+    console.log({ newUser });
     req.logIn(newUser, (err) => {
-      if (err)
+      if (err) {
         throw new InternalServerErrorException('Passport login error occured');
+      }
     });
-    return newUser;
+    return req.user;
   }
 
   @UseGuards(GoogleAuthGuard)

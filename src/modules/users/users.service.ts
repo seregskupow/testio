@@ -11,11 +11,11 @@ export class UsersService {
   ) {}
 
   async create(user: UserDto): Promise<UserDto> {
-    return await this.userRepository
-      .create<User>(user, { raw: true })
-      .then((user) => {
-        return plainToClass(UserDto, user, { ignoreDecorators: true });
+    return await this.userRepository.create<User>(user).then((user) => {
+      return plainToClass(UserDto, user.get({ plain: true }), {
+        ignoreDecorators: true,
       });
+    });
   }
 
   async findOneByEmail(email: string): Promise<UserDto> {

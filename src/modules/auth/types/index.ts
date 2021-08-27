@@ -10,4 +10,4 @@ export type googlePayload = {
   googleId: string;
 };
 
-export type Done = (err: Error, user: SessionUserDto) => void;
+export type Done = (err: Error, user: UserDto) => void;
