@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import Router from 'next/router';
+import { isServer } from './isServer';
 
 const client = Axios.create({
   baseURL: process.env.SERVER || process.env.NEXT_PUBLIC_SERVER,
@@ -16,10 +17,12 @@ client.interceptors.response.use(
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     if (error.response) {
-      if (error.response.status === 401 || error.response.status === 404) {
-        Router.push({
-          pathname: '/auth/login',
-        });
+      if (error.response.status === 401 || error.response.status === 403) {
+        if (!isServer()) {
+          Router.push({
+            pathname: '/auth/login',
+          });
+        }
       }
     }
 

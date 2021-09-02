@@ -7,6 +7,7 @@ import { AppState, wrapper } from '../store';
 import styles from '../styles/Home.module.css';
 import { useEffect } from 'react';
 import { axiosClient } from '@/utils/axios';
+import { ensureAuth } from '@/utils/ensureAuth';
 
 interface HomeProps  {
 	user:User;
@@ -94,16 +95,18 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   (store) => async (ctx) => {
-    const user: User = {
-      name: 'sereg',
-      id: 45,
-      email: 'email@email.com',
-      avatar:
-        'https://pbs.twimg.com/profile_images/1045580248467886080/_uwwJdr3.jpg',
-    };
-    store.dispatch(setUser(user));
+		if(!(await ensureAuth())){
+			return {
+				redirect: {
+					permanent: true,
+					destination: "/auth/login",
+				},
+				props:{},
+			};
+		}
+
     return {
-      props: {user},
+      props: {},
     };
   }
 );
