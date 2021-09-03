@@ -33,7 +33,7 @@
   flex-grow: 1;
 }
 
-.title a {
+/* .title a {
   color: #0070f3;
   text-decoration: none;
 }
@@ -42,7 +42,7 @@
 .title a:focus,
 .title a:active {
   text-decoration: underline;
-}
+} */
 
 .title {
   margin: 0;
@@ -102,11 +102,11 @@
   font-size: 1.5rem;
 }
 
-.card p {
+/* .card p {
   margin: 0;
   font-size: 1.25rem;
   line-height: 1.5;
-}
+} */
 
 .logo {
   height: 1em;

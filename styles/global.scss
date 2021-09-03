@@ -1,0 +1,138 @@
+html {
+	font-size: 10px;
+	box-sizing: border-box;
+
+	&:focus {
+		outline: none;
+	}
+}
+*,
+body {
+	margin: 0;
+	padding: 0;
+	&:focus {
+		outline: none;
+	}
+}
+body {
+	background-color: var(--color-background);
+	color: var(--color-text);
+	font-family: "Rubik", sans-serif;
+	line-height: 1.5;
+	transition: all 0.15s ease;
+}
+ul {
+	list-style: none;
+}
+a {
+	text-decoration: none;
+}
+button {
+	border: none;
+	background-color: transparent;
+}
+textarea:focus,
+input:focus,
+button:focus {
+	outline: none;
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background-color: var(--color-field);
+	border: 1px solid var(--color-border);
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 8px;
+	background-color: var(--color-contrast);
+
+	cursor: pointer;
+}
+
+.banner {
+	width: 100%;
+	height: 150px;
+
+	position: relative;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	margin-bottom: 20px;
+	border-radius: 8px;
+	overflow: hidden;
+
+	& .banner__img__container {
+		position: absolute;
+		top: 0;
+		left: 0;
+
+		width: 100%;
+		height: 100%;
+
+		z-index: -1;
+
+		& span {
+			display: inline-block;
+			height: 100%;
+			width: 100%;
+		}
+
+		& .banner__img {
+			width: 100%;
+			height: 100%;
+
+			object-fit: fill;
+		}
+	}
+
+	& .banner__title {
+		color: transparent;
+
+		font-size: 5rem;
+
+		text-transform: uppercase;
+		font-family: "Rubik Mono One", sans-serif;
+		text-align: center;
+
+		-webkit-text-stroke: 3px black;
+
+		pointer-events: none;
+	}
+}
+
+:root {
+	--color-primary: #{$lightPrimary};
+	--color-hover: #{$lightHover};
+	--color-background: #{$lightBackground};
+	--color-border: #{$lightBorder};
+	--color-field: #{$lightInput};
+	--color-field-rgb: #{$lightInputRGB};
+	--color-contrast: #{$lightContrast};
+	--color-contrast-rgb: #{$lightContrastRGB};
+	--color-text: #{$lightText};
+	--dark-text: #222831;
+	--text-light: #{$lightTextLight};
+
+	--color-red: #{$red};
+	--color-red-rgb: #{$red-rgb};
+}
+.dark {
+	--color-primary: #{$darkPrimary};
+	--color-hover: #{$darkHover};
+	--color-background: #{$darkBackground};
+	--color-border: #{$darkBorder};
+	--color-field: #{$darkInput};
+	--color-field-rgb: #{$darkInputRGB};
+	--color-contrast: #{$darkContrast};
+	--color-contrast-rgb: #{$darkContrastRGB};
+	--color-text: #{$darkText};
+	--dark-text: #222831;
+	--text-light: #{$darkTextLight};
+}

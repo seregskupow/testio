@@ -1,0 +1,140 @@
+.sticky__filter {
+  position: sticky;
+  top: 80px;
+}
+
+.short__company__description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-size: 1.5rem;
+
+  padding: 20px 0;
+
+  & .company__image {
+    padding: 5px;
+
+    background-color: var(--color-field);
+
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    & img {
+      height: 100px;
+      width: auto;
+
+      margin: 0 auto;
+    }
+  }
+
+  & .company__link {
+    font-size: 2rem;
+
+    color: var(--color-contrast);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  & .info__label {
+    color: rgba(#{var(--color-contrast-rgb)}, 0.7);
+
+    margin-right: 5px;
+  }
+}
+
+.btn-apply {
+  & button {
+    width: 100%;
+  }
+}
+.section__title__container {
+  padding: 0 25px;
+  padding-bottom: 10px;
+
+  margin-top: 10px;
+  margin-bottom: 20px;
+
+  border-bottom: 1px solid var(--color-border);
+
+  & .section__title {
+    font-size: 2rem;
+
+    color: var(--color-contrast);
+  }
+}
+section.job__title__container {
+  padding: 10px 15px;
+  background-color: var(--color-contrast);
+
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid var(--color-border);
+  & .job__title {
+    font-size: 3rem;
+
+    color: var(--dark-text);
+  }
+}
+
+section.job__description__section {
+  & .job__description {
+    color: var(--color-text);
+
+    font-size: 1.5rem;
+
+    & span {
+      margin: 10px 0;
+      color: rgba(#{var(--color-contrast-rgb)}, 0.7);
+      font-weight: bold;
+      font-size: 1.8rem;
+    }
+    & p {
+      margin-bottom: 1rem;
+    }
+
+    & ul {
+      margin: 10px 10px 10px 20px;
+      & li {
+        position: relative;
+        &::before {
+          position: absolute;
+          margin-left: -1.3rem;
+          padding-right: 1rem;
+          color: var(--color-contrast);
+          content: "\25CF";
+        }
+        & span {
+          color: var(--color-text);
+          font-size: 1.54rem;
+          font-weight: normal;
+        }
+      }
+    }
+  }
+}
+
+section.short__info {
+  margin: 0 20px;
+  margin-bottom: 20px;
+  & .contact__info {
+    color: var(--color-text);
+    font-size: 1.7rem;
+
+    & p {
+      line-height: 2rem;
+      margin-bottom: 10px;
+    }
+
+    & .icon {
+      color: var(--color-contrast);
+      margin-right: 8px;
+
+      & svg {
+        height: 20px;
+        width: auto;
+      }
+    }
+  }
+}

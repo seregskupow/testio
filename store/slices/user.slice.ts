@@ -14,24 +14,29 @@ export interface IUserState {
   name: string;
   email: string;
   avatar: string;
+  isAuthenticated: boolean;
 }
 const initialState: IUserState = {
   id: 0,
   name: '',
   email: '',
   avatar: '',
+  isAuthenticated: false,
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<User>) => {
+    setUser: (state: IUserState, action: PayloadAction<User>) => {
       // const { id, name, email, avatar } = action.payload;
       // (state.id = id), (state.name = name);
       // state.email = email;
       // state.avatar = avatar;
-      return action.payload;
+      return { ...state, ...action.payload };
+    },
+    setAuth: (state: IUserState, action: PayloadAction<boolean>) => {
+      state.isAuthenticated = action.payload;
     },
   },
   extraReducers: {
@@ -63,7 +68,7 @@ export const userSlice = createSlice({
 //     );
 //   };
 
-export const { setUser } = userSlice.actions;
+export const { setUser, setAuth } = userSlice.actions;
 
 export const userSelector = (state: AppState) => state.user;
 

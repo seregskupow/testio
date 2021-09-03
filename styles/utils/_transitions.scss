@@ -1,0 +1,11 @@
+$timing: cubic-bezier(.77, 0, .175, 1);
+
+$transitions: (
+   "fast": .1s $timing,
+   "normal": .3s $timing,
+   "slow": .5s $timing
+);
+
+@function transition($transition-param) {
+   @return map-get($transitions, $transition-param);
+}
