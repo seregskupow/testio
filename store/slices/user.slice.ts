@@ -1,8 +1,15 @@
-import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  current,
+  PayloadAction,
+} from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 import { TypedUseSelectorHook } from 'react-redux';
-import { AppState } from '..';
+import { AppState, AppThunk } from '..';
 import { bindActionCreators } from 'redux';
+import { axiosClient } from '@/utils/axios';
+import { setMessage } from './message.slice';
 
 export type User = {
   id: number;
@@ -25,15 +32,23 @@ const initialState: IUserState = {
   isAuthenticated: false,
 };
 
+// const loginUser = createAsyncThunk(
+//   'users/login',
+//   async (user, { dispatch }) => {
+//     try {
+//       const data: User = await axiosClient.post('/auth/login', user);
+//       return data;
+//     } catch (error) {
+//       dispatch(setMessage({ type: 'error', msg: error as string }));
+//     }
+//   }
+// );
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     setUser: (state: IUserState, action: PayloadAction<User>) => {
-      // const { id, name, email, avatar } = action.payload;
-      // (state.id = id), (state.name = name);
-      // state.email = email;
-      // state.avatar = avatar;
       return { ...state, ...action.payload };
     },
     setAuth: (state: IUserState, action: PayloadAction<boolean>) => {
@@ -50,24 +65,6 @@ export const userSlice = createSlice({
     },
   },
 });
-//Async action
-// export const fetchSubject =
-//   (id: any): AppThunk =>
-//   async (dispatch) => {
-//     const timeoutPromise = (timeout: number) =>
-//       new Promise((resolve) => setTimeout(resolve, timeout));
-
-//     await timeoutPromise(200);
-
-//     dispatch(
-//       subjectSlice.actions.setEnt({
-//         [id]: {
-//           id,
-//           name: `Subject ${id}`,
-//         },
-//       })
-//     );
-//   };
 
 export const userActions = userSlice.actions;
 

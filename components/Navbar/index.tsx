@@ -14,13 +14,13 @@ const Navbar: React.FC = () => {
         <div className={styles.header__right}>
           <ul className={styles['hot-links']}>
             <li className={styles['hot-links__item']}>
-              <StyledLink href='/'>
-                <p className={styles['hotLinks__item__link']}>🔥Bla bla</p>
+              <StyledLink href='/test'>
+                <p className={styles['hotLinks__item__link']}>🔥index2</p>
               </StyledLink>
             </li>
             <li className={styles['hot-links__item']}>
-              <StyledLink href='/test'>
-                <p className={styles['hotLinks__item__link']}>Bla bla</p>
+              <StyledLink href='/auth/login'>
+                <p className={styles['hotLinks__item__link']}>Login</p>
               </StyledLink>
             </li>
           </ul>
