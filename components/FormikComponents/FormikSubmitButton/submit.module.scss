@@ -1,0 +1,28 @@
+.button__container {
+	width: 100%;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.formik__submit__button {
+	width: auto;
+
+	padding: 8px 20px;
+
+	font-size: 2rem;
+	color: var(--dark-text);
+
+	background: var(--color-contrast);
+
+	border: none;
+	border-radius: $blocksBRD;
+
+	box-shadow: $mediumShadow;
+
+	cursor: pointer;
+
+	&:hover {
+		filter: brightness(1.1);
+	}
+}

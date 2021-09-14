@@ -4,13 +4,15 @@
 	font-size: 3rem;
 	font-weight: 150;
 	margin-right: 20px;
+
+	color: var(--color-contrast);
 	& span {
 		font-weight: bold;
 	}
 }
-.logo_white {
-	color: $white;
-}
-.logo_black {
-	color: $black;
-}
+// .logo_white {
+// 	color: $white;
+// }
+// .logo_black {
+// 	color: $black;
+// }

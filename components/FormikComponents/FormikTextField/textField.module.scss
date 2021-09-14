@@ -1,0 +1,50 @@
+.formik__text__field {
+	width: 100%;
+}
+.form__field__wrapper {
+	position: relative;
+	border-radius: 15px;
+	box-shadow: $smallShadow;
+
+	&:focus-within {
+		& .form__field {
+			border-color: var(--color-contrast);
+			box-shadow: 0 0 1px 4px rgba(var(--color-contrast-rgb), 0.3);
+		}
+	}
+}
+.field__error {
+	& .form__field {
+		background: $lightRed;
+		border-color: $red;
+		box-shadow: 0 0 2px 2px rgba($red, 0.3);
+	}
+	&::after,
+	&::before {
+		background: $red;
+	}
+}
+.form__field {
+	width: 100%;
+	height: 50px;
+	background-color: $darkWhite;
+	border: 3px solid transparent;
+	padding: 0 15px;
+
+	border-radius: 15px;
+
+	font-size: 2rem;
+
+	box-sizing: border-box;
+	transition: background 0.3s ease;
+	&:invalid {
+		color: $red;
+	}
+	&:not(:last-child) {
+		margin-bottom: 15px;
+	}
+}
+.form__input__error {
+	color: $red;
+	font-size: 1.5rem;
+}

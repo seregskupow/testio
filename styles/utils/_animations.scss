@@ -1,10 +1,9 @@
-
 @keyframes animatedBackground {
-    from {
-      background-position: 0 0;
-    }
-  /*use negative width if you want it to flow right to left else and positive for left to right*/
-    to {
-      background-position: -10000px 0;
-    }
-  }
+	from {
+		background-position: 0 -100px;
+	}
+	/*use negative width if you want it to flow right to left else and positive for left to right*/
+	to {
+		background-position: -10000px -100px;
+	}
+}

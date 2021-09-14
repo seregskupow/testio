@@ -9,8 +9,6 @@ export const setTheme = () => {
         : 'light';
       document.body.classList.add(theme);
       localStorage.setItem('theme', theme);
-
-      console.log(theme);
     }
   }
 };

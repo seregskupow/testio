@@ -1,0 +1,10 @@
+@import "../../../styles/utils/colors";
+@import "../../../styles/utils/borders";
+@import "../../../styles/utils/shadows";
+.auth__form {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    max-width: 400px;
+}

@@ -43,7 +43,9 @@ function AccountBtn() {
     <div className={styles.user__acount} ref={accBtn}>
       <button
         type='button'
-        className={`${styles.user__acount__btn} btn__click`}
+        className={`${styles.user__acount__btn} ${
+          isAuth && styles.logged
+        } btn__click`}
         onClick={() => setOpen(!open)}
       >
         {isAuth ? (

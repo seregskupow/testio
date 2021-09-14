@@ -115,6 +115,7 @@ button:focus {
 	--color-field: #{$lightInput};
 	--color-field-rgb: #{$lightInputRGB};
 	--color-contrast: #{$lightContrast};
+	--color-contrast-light: #{$lightContrastLight};
 	--color-contrast-rgb: #{$lightContrastRGB};
 	--color-text: #{$lightText};
 	--dark-text: #222831;
@@ -131,6 +132,7 @@ button:focus {
 	--color-field: #{$darkInput};
 	--color-field-rgb: #{$darkInputRGB};
 	--color-contrast: #{$darkContrast};
+	--color-contrast-light: #{$darkContrastLight};
 	--color-contrast-rgb: #{$darkContrastRGB};
 	--color-text: #{$darkText};
 	--dark-text: #222831;

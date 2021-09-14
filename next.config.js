@@ -6,4 +6,7 @@ module.exports = {
     includePaths: [path.join(__dirname, 'styles')],
     prependData: `@import "main.scss";`,
   },
+  images: {
+    domains: ['cdn.sanity.io', 'pbs.twimg.com'],
+  },
 };

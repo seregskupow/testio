@@ -4,7 +4,6 @@ import Logo from '@/components/Logo';
 import AccountBtn from '../AccountBtn';
 import StyledLink from '../Controls/StyledLink';
 const Navbar: React.FC = () => {
-  console.log(styles);
   return (
     <header className={styles.header}>
       <div className={styles.header__inner}>
@@ -15,12 +14,12 @@ const Navbar: React.FC = () => {
         <div className={styles.header__right}>
           <ul className={styles['hot-links']}>
             <li className={styles['hot-links__item']}>
-              <StyledLink href='/blog/blog2'>
+              <StyledLink href='/'>
                 <p className={styles['hotLinks__item__link']}>🔥Bla bla</p>
               </StyledLink>
             </li>
             <li className={styles['hot-links__item']}>
-              <StyledLink href='/blog/bloggg'>
+              <StyledLink href='/test'>
                 <p className={styles['hotLinks__item__link']}>Bla bla</p>
               </StyledLink>
             </li>

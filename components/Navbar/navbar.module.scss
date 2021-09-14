@@ -16,7 +16,8 @@
 	right: 0;
 	top: 0;
 
-	border-top: 1px solid var(--color-contrast);
+	border-top: 1px solid var(--color-border);
+	//border-top: 1px solid #5144b9;
 
 	z-index: 80;
 }
@@ -29,6 +30,7 @@
 
 	background-color: var(--color-primary);
 	border-bottom: 1px solid var(--color-border);
+	//border-bottom: 1px solid var(--color-contrast);
 
 	box-sizing: border-box;
 

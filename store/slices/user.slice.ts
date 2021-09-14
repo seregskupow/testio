@@ -2,6 +2,7 @@ import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 import { TypedUseSelectorHook } from 'react-redux';
 import { AppState } from '..';
+import { bindActionCreators } from 'redux';
 
 export type User = {
   id: number;
@@ -68,7 +69,7 @@ export const userSlice = createSlice({
 //     );
 //   };
 
-export const { setUser, setAuth } = userSlice.actions;
+export const userActions = userSlice.actions;
 
 export const userSelector = (state: AppState) => state.user;
 

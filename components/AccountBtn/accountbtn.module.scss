@@ -1,6 +1,5 @@
 .user__acount__btn {
 	height: 40px;
-	min-width: 200px;
 
 	display: flex;
 	align-items: center;
@@ -14,6 +13,10 @@
 	font-size: 20px;
 	overflow: hidden;
 	cursor: pointer;
+
+	&.logged {
+		min-width: 200px;
+	}
 	& i {
 		line-height: 15px;
 		margin: 0 8px;
@@ -41,7 +44,7 @@
 	display: flex;
 	flex-grow: 1;
 	align-items: center;
-	justify-content: start;
+	justify-content: flex-start;
 
 	border-right: 1px solid var(--color-border);
 	user-select: none;
