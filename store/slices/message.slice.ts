@@ -12,10 +12,10 @@ interface Message {
 }
 
 export interface IMessageState {
-  message: Array<Message>;
+  messageArr: Array<Message>;
 }
 const initialState: IMessageState = {
-  message: [],
+  messageArr: [],
 };
 
 export const messageSlice = createSlice({
@@ -23,7 +23,8 @@ export const messageSlice = createSlice({
   initialState,
   reducers: {
     setMessage: (state: IMessageState, action: PayloadAction<Message>) => {
-      state.message.push(action.payload);
+      console.log({ Payload: action.payload });
+      state.messageArr.push(action.payload);
     },
   },
   extraReducers: {
@@ -40,5 +41,7 @@ export const messageSlice = createSlice({
 export const { setMessage } = messageSlice.actions;
 
 export const messageActions = messageSlice.actions;
+
+export const messageSelector = (state: AppState) => state.message;
 
 export default messageSlice;

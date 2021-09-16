@@ -52,7 +52,13 @@
 		& .hot-links {
 			display: inline-flex;
 			flex-direction: row;
+
+			margin-right: 8px;
+			
 			& .hot-links__item {
+				display: flex;
+				align-items: center;
+
 				margin: 0 5px;
 
 				& .hotLinks__item__link {

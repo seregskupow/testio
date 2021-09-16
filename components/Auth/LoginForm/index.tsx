@@ -18,33 +18,30 @@ import { useActions } from '@/store/useActions';
 import { User } from '@/store/slices/user.slice';
 import { AxiosError } from 'axios';
 import Panel from '@/components/Panel';
-interface LoginDTO {
-  email: string;
-  password: string;
-}
+import { authSelector, LoginDTO } from '@/store/slices/auth.slice';
 
 export default function LoginForm() {
   const dispatch = useDispatch();
-  const { setUser, setAuth, setMessage } = useActions();
+  const { loading, loggedIn } = useSelector(authSelector);
+  const { loginUser, setMessage } = useActions();
   const router = useRouter();
-  const [isLoading, setLoading] = useState<boolean>(false);
   //const error = useSelector((state) => state.user.errorMessage);
 
-  const loginUser = async (user: LoginDTO) => {
-    setLoading(true);
-    axiosClient
-      .post<User>('/auth/login', user)
-      .then((loggedUser) => {
-        setUser(loggedUser.data);
-        setAuth(true);
-        setLoading(false);
-        router.push('/');
-      })
-      .catch((error: AxiosError) => {
-        dispatch(setMessage({ type: 'error', msg: error.message }));
-        setLoading(false);
-      });
-  };
+  // const login = async (user: LoginDTO) => {
+  //   setLoading(true);
+  //   axiosClient
+  //     .post<User>('/auth/login', user)
+  //     .then((loggedUser) => {
+  //       setUser(loggedUser.data);
+  //       setAuth(true);
+  //       setLoading(false);
+  //       router.push('/');
+  //     })
+  //     .catch((error: AxiosError) => {
+  //       dispatch(setMessage({ type: 'error', msg: error.message }));
+  //       setLoading(false);
+  //     });
+  // };
 
   const validationSchema = yup.object({
     email: yup.string().email('Email is invalid').required('Email is required'),
@@ -59,50 +56,48 @@ export default function LoginForm() {
       .required('Password is required'),
   });
   return (
-    <Panel padding={0}>
-      <div className={styles.login__form}>
-        <div className={styles.login__form__left}>
-          <div>
-            <Logo />
-            <h2>{'Some slogan blablabla'}</h2>
+    <div className={styles.login__form}>
+      <Panel padding={0}>
+        <div className={styles.login__form__inner}>
+          <div className={styles.login__form__left}>
+            <div>
+              <Logo />
+              <h2>{'Some slogan blablabla'}</h2>
+            </div>
+          </div>
+          <div className={styles.login__form__right}>
+            <h1 className={styles.login__title}>Login</h1>
+            <Formik
+              initialValues={{
+                email: 'mail@email.com',
+                password: '12345678',
+              }}
+              validationSchema={validationSchema}
+              onSubmit={async (values) => {
+                loginUser(values);
+                if (!loading && loggedIn) router.push('/');
+              }}
+            >
+              {() => (
+                <Form autoComplete='off' className={inputStyes.auth__form}>
+                  <FormikLabel text={'Enter email'} fontSize={2} />
+                  <FormikTextField type='email' name='email' />
+                  <FormikLabel text={'enter password'} fontSize={2} />
+                  <FormikTextField type='password' name='password' />
+                  <FormikSubmitButton text={'Login'} isSubmitting={loading} />
+                </Form>
+              )}
+            </Formik>
+            <ProviderButtons />
+            <FormikLabel text={'No account?'} fontSize={2} />
+            {/* <MyLink href='/auth/register' color='blue' text={'Register'} />
+        <LanguageSwitcher /> */}
+            <StyledLink href='/auth/register'>
+              <h1>Register</h1>
+            </StyledLink>
           </div>
         </div>
-        <div className={styles.login__form__right}>
-          <h1 className={styles.login__title}>Login</h1>
-          <Formik
-            initialValues={{
-              email: 'mail@email.com',
-              password: '12345678',
-            }}
-            validationSchema={validationSchema}
-            onSubmit={async (values, { setSubmitting }) => {
-              setSubmitting(true);
-              await loginUser(values);
-              if (!isLoading) setSubmitting(false);
-            }}
-          >
-            {({ isSubmitting }) => (
-              <Form autoComplete='off' className={inputStyes.auth__form}>
-                <FormikLabel text={'Enter email'} fontSize={2} />
-                <FormikTextField type='email' name='email' />
-                <FormikLabel text={'enter password'} fontSize={2} />
-                <FormikTextField type='password' name='password' />
-                <FormikSubmitButton
-                  text={'Submit'}
-                  isSubmitting={isSubmitting}
-                />
-              </Form>
-            )}
-          </Formik>
-          <ProviderButtons />
-          <FormikLabel text={'No account?'} fontSize={2} />
-          {/* <MyLink href='/auth/register' color='blue' text={'Register'} />
-        <LanguageSwitcher /> */}
-          <StyledLink href='/auth/register'>
-            <h1>Register</h1>
-          </StyledLink>
-        </div>
-      </div>
-    </Panel>
+      </Panel>
+    </div>
   );
 }

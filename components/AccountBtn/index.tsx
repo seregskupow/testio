@@ -11,12 +11,13 @@ import { AiFillFormatPainter } from 'react-icons/ai';
 import Link from 'next/link';
 import { userSelector } from '@/store/slices/user.slice';
 import ThemeToggle from '@/components/ThemeToggle';
+import { authSelector } from '@/store/slices/auth.slice';
 // import ThemeToggle from '../ThemeToggle';
 // import LanguageSwitcher from '../LanguageSwitcher';
 
 function AccountBtn() {
-  const { isAuthenticated: isAuth } = useSelector(userSelector);
-  // const isAuth: boolean = useSelector((state) => state.user.isAuthenticated);
+  const { loggedIn } = useSelector(authSelector);
+  // const loggedIn: boolean = useSelector((state) => state.user.loggedInenticated);
   // const userName: string = useSelector((state) => state.user.userName);
   // const userAvatar: string = useSelector((state) => state.user.userAvatar);
   const [open, setOpen] = useState<boolean>(false);
@@ -44,11 +45,11 @@ function AccountBtn() {
       <button
         type='button'
         className={`${styles.user__acount__btn} ${
-          isAuth && styles.logged
+          loggedIn && styles.logged
         } btn__click`}
         onClick={() => setOpen(!open)}
       >
-        {isAuth ? (
+        {loggedIn ? (
           <UserBtn />
         ) : (
           <i>
@@ -60,7 +61,7 @@ function AccountBtn() {
         </i>
       </button>
       <AnimatePresence exitBeforeEnter>
-        {open && <DropdownMenu isAuth={isAuth} />}
+        {open && <DropdownMenu loggedIn={loggedIn} />}
       </AnimatePresence>
     </div>
   );
@@ -98,7 +99,7 @@ interface DropdownItemProps {
   icon: any;
   children: React.ReactNode;
 }
-const DropdownMenu = ({ isAuth }: { isAuth: boolean }) => {
+const DropdownMenu = ({ loggedIn }: { loggedIn: boolean }) => {
   const DropdownItem: React.FC<DropdownItemProps> = ({
     link,
     icon,
@@ -130,7 +131,7 @@ const DropdownMenu = ({ isAuth }: { isAuth: boolean }) => {
       transition={{ duration: 0.1 }}
       className={styles.user__dropdown}
     >
-      {isAuth && (
+      {loggedIn && (
         <DropdownItem link='/account' icon={<RiAccountBoxLine />}>
           Account
         </DropdownItem>
@@ -141,7 +142,7 @@ const DropdownMenu = ({ isAuth }: { isAuth: boolean }) => {
       <DropdownItem icon={<MdLanguage />}>
         {/* <span>Мова</span> <LanguageSwitcher /> */}
       </DropdownItem>
-      {isAuth ? (
+      {loggedIn ? (
         <DropdownItem link='#' icon={<RiLogoutCircleRLine />}>
           Logout
         </DropdownItem>

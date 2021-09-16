@@ -10,10 +10,11 @@ import { setTheme } from '@/utils/setTheme';
 import { useRouter } from 'next/router';
 import { progressBar } from '@/utils/progressBar';
 import { useActions } from '@/store/useActions';
+import Toast from '@/components/Toast';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const { setAuth, setUser } = useActions();
+  const { setAuth, setUser, setLoggedIn } = useActions();
   const Layout = (Component as PageComponent<any>).Layout
     ? (Component as PageComponent<any>).Layout
     : React.Fragment;
@@ -30,16 +31,19 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     progressBar.on(router);
     setTheme();
-    setUser(user);
-    user && setAuth(true);
+    // setUser(user);
+    // user && setLoggedIn(true);
     return () => {
       progressBar.off(router);
     };
-  }, [user, router, setAuth, setUser]);
+  }, [user, router, setLoggedIn, setUser]);
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <React.Fragment>
+      <Toast />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </React.Fragment>
   );
 }
 export default wrapper.withRedux(MyApp);

@@ -1,0 +1,17 @@
+.notification__container {
+	position: fixed;
+	z-index: 999999;
+}
+.notification {
+	font-size: 2rem;
+
+	&.error {
+		color: $red;
+	}
+	&.warning {
+		color: $yellow;
+	}
+	&.info {
+		color: $blue;
+	}
+}

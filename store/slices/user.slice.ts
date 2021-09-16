@@ -32,18 +32,6 @@ const initialState: IUserState = {
   isAuthenticated: false,
 };
 
-// const loginUser = createAsyncThunk(
-//   'users/login',
-//   async (user, { dispatch }) => {
-//     try {
-//       const data: User = await axiosClient.post('/auth/login', user);
-//       return data;
-//     } catch (error) {
-//       dispatch(setMessage({ type: 'error', msg: error as string }));
-//     }
-//   }
-// );
-
 export const userSlice = createSlice({
   name: 'user',
   initialState,

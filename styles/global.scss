@@ -21,6 +21,7 @@ body {
 	line-height: 1.5;
 	transition: all 0.15s ease;
 }
+
 ul {
 	list-style: none;
 }
@@ -123,6 +124,11 @@ button:focus {
 
 	--color-red: #{$red};
 	--color-red-rgb: #{$red-rgb};
+
+	--pattern: url("/images/testio_pattern_violet.png");
+	--violet-pattern: url("/images/testio_pattern_violet.png");
+	--dark-pattern: url("/images/testio_pattern_purple.png");
+	--pattern-background: #{$lightContrastLight};
 }
 .dark {
 	--color-primary: #{$darkPrimary};
@@ -137,4 +143,7 @@ button:focus {
 	--color-text: #{$darkText};
 	--dark-text: #222831;
 	--text-light: #{$darkTextLight};
+
+	--pattern: url("/images/testio_pattern_purple.png");
+	--pattern-background: #{$black};
 }

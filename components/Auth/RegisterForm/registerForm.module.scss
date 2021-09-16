@@ -1,7 +1,5 @@
 .register__form {
-	// width: 100%;
-
-	// margin: 0 auto;
+	padding: 2rem 0;
 
 	@include media("sm") {
 		width: 50%;
@@ -17,4 +15,9 @@
 	align-items: center;
 
 	box-sizing: border-box;
+
+	& .register__title {
+		font-size: 3rem;
+		margin-bottom: 30px;
+	}
 }

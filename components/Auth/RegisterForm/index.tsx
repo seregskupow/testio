@@ -15,37 +15,24 @@ import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import ProviderButtons from '@/components/Auth/ProvidersButtons';
 import StyledLink from '@/components/Controls/StyledLink';
-interface RegisterDTO {
-  email: string;
-  password: string;
-}
+import { authSelector, RegisterDTO } from '@/store/slices/auth.slice';
+import { useSelector } from 'react-redux';
+
 export default function RegisterForm() {
   const router = useRouter();
-  const { setUser, setAuth, setMessage } = useActions();
-  const [isLoading, setLoading] = useState<boolean>(false);
-
-  const registerUser = async (user: RegisterDTO) => {
-    setLoading(true);
-    axiosClient
-      .post<User>('/auth/register', user)
-      .then((loggedUser) => {
-        setUser(loggedUser.data);
-        setAuth(true);
-        setLoading(false);
-        router.push('/');
-      })
-      .catch((error: AxiosError) => {
-        setMessage({ type: 'error', msg: error.message });
-        setLoading(false);
-      });
-  };
+  const { loading, loggedIn } = useSelector(authSelector);
+  const { registerUser } = useActions();
   const validationSchema = yup.object({
-    name: yup.string().min(6).max(20).required(),
+    name: yup
+      .string()
+      .min(6, 'Min length should be 6')
+      .max(20, 'Max length should be 15')
+      .required(),
     email: yup.string().email('Email is invalid').required('Email is required'),
     password: yup
       .string()
       .min(8, 'Min length should be 8')
-      .max(15, 'Min length should be 15')
+      .max(15, 'Max length should be 15')
       .matches(
         /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/,
         'Password is invalid'
@@ -62,21 +49,22 @@ export default function RegisterForm() {
     <div className={styles.register__form}>
       <Panel>
         <div className={styles.register__inner}>
+          <h1 className={styles.register__title}>Register</h1>
           <Formik
             validateOnChange
             initialValues={{
+              name: '',
               email: '',
               password: '',
               passwordConfirmation: '',
             }}
             validationSchema={validationSchema}
-            onSubmit={async (values, { setSubmitting }) => {
-              setSubmitting(true);
-              await registerUser(values);
-              if (!isLoading) setSubmitting(false);
+            onSubmit={async (values) => {
+              registerUser(values);
+              if (!loading && loggedIn) router.push('/');
             }}
           >
-            {({ values, errors, isSubmitting }) => (
+            {() => (
               <Form autoComplete='off' className={inputs.auth__form}>
                 <FormikLabel text={'Enter Credentials'} fontSize={2} />
                 <FormikTextField type='text' name='name' />
@@ -86,10 +74,7 @@ export default function RegisterForm() {
                 <FormikTextField type='password' name='password' />
                 <FormikLabel text={'Repeat password'} fontSize={2} />
                 <FormikTextField type='password' name='passwordConfirmation' />
-                <FormikSubmitButton
-                  text={'Register'}
-                  isSubmitting={isSubmitting}
-                />
+                <FormikSubmitButton text={'Register'} isSubmitting={loading} />
               </Form>
             )}
           </Formik>

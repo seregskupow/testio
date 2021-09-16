@@ -21,7 +21,11 @@ export default function FormikSubmitButton({
         type='submit'
         disabled={isSubmitting}
       >
-        {isSubmitting && <Spinner color='white' height={2} />}
+        {isSubmitting && (
+          <span>
+            <Spinner color='white' height={2} />
+          </span>
+        )}
         {text}
       </button>
     </div>

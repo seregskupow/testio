@@ -23,6 +23,14 @@
 	cursor: pointer;
 
 	&:hover {
-		filter: brightness(1.1);
+		background: var(--color-contrast-light);
+	}
+
+	&:disabled {
+		background: var(--color-contrast-light);
+		cursor: progress;
+	}
+	& span {
+		margin-right: 5px;
 	}
 }

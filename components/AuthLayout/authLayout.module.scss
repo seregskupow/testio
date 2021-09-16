@@ -5,13 +5,15 @@
 	display: flex;
 	align-items: center;
 
-	background: url("/images/testio_pattern_purple.png");
+	background: var(--pattern);
 	background-repeat: repeat;
 	background-attachment: fixed;
 	// background-size: 110%;
-	background-color: $black;
+
+	background-color: var(--pattern-background);
 	animation: animatedBackground 1000s linear infinite;
 }
+
 .auth__container__inner {
 	width: 95%;
 	max-width: 975px;
