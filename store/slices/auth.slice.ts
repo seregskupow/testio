@@ -61,7 +61,19 @@ const loginUser = (user: LoginDTO) => {
       dispatch(setLoggedIn(false));
       dispatch(setLoading(false));
       dispatch(
-        setMessage({ type: 'error', msg: (error as AxiosError).message })
+        setMessage({
+          type: 'error',
+          msg: 'Could not find user. Email or password is incorrect',
+        })
+      );
+      dispatch(
+        setMessage({ type: 'warning', msg: (error as AxiosError).message })
+      );
+      dispatch(
+        setMessage({ type: 'info', msg: (error as AxiosError).message })
+      );
+      dispatch(
+        setMessage({ type: 'success', msg: (error as AxiosError).message })
       );
     }
   };

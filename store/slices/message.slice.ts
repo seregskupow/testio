@@ -7,6 +7,7 @@ import { AppState, AppThunk } from '..';
 //   message: string;
 // }
 interface Message {
+  id: number;
   type: 'error' | 'warning' | 'info' | 'success';
   msg: string;
 }
@@ -24,7 +25,13 @@ export const messageSlice = createSlice({
   reducers: {
     setMessage: (state: IMessageState, action: PayloadAction<Message>) => {
       console.log({ Payload: action.payload });
-      state.messageArr.push(action.payload);
+      state.messageArr.push({ ...action.payload, id: Date.now() });
+    },
+    removeMessage: (state: IMessageState, action: PayloadAction<number>) => {
+      const deleteIndex = state.messageArr.findIndex(
+        (e) => e.id === action.payload
+      );
+      deleteIndex !== -1 && state.messageArr.splice(deleteIndex, 1);
     },
   },
   extraReducers: {

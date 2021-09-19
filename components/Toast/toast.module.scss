@@ -3,15 +3,127 @@
 	z-index: 999999;
 }
 .notification {
-	font-size: 2rem;
+	display: flex;
+	justify-content: space-around;
+
+	width: 200px;
+	// height: 50px !important;
+	padding: 5px 8px;
+	margin-bottom: 8px;
+
+	color: var(--dark-text);
+
+	border-radius: 8px;
+	border: 2px solid;
+
+	cursor: grab;
 
 	&.error {
-		color: $red;
+		background-color: $lightRed;
+		//background-color: lighten($red, 10);
+		border-color: $red;
+
+		& .icon__bg {
+			background-color: $red;
+		}
+
+		& .close__btn button:hover {
+			background-color: $red;
+		}
 	}
 	&.warning {
-		color: $yellow;
+		background-color: $lightYellow;
+		//background-color: lighten($yellow, 10);
+		border-color: $yellow;
+
+		& .icon__bg {
+			background-color: $yellow;
+		}
+		& .close__btn button:hover {
+			background-color: $yellow;
+		}
 	}
 	&.info {
-		color: $blue;
+		background-color: $lightBlue;
+		//background-color: lighten($blue, 10);
+		border-color: $blue;
+
+		& .icon__bg {
+			background-color: $blue;
+		}
+
+		& .close__btn button:hover {
+			background-color: $blue;
+		}
+	}
+	&.success {
+		background-color: $lightGreen;
+		//background-color: lighten($green, 10);
+		border-color: $green;
+
+		& .icon__bg {
+			background-color: $green;
+		}
+
+		& .close__btn button:hover {
+			background-color: $green;
+		}
+	}
+
+	& .icon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-grow: 0;
+
+		margin-right: 5px;
+
+		& .icon__bg {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			padding: 5px;
+			border-radius: 10px;
+			& svg {
+				font-size: 2rem;
+				line-height: 2rem;
+				color: $white;
+			}
+		}
+	}
+
+	& .message {
+		flex-grow: 1;
+		& p {
+			font-size: 1.2rem;
+		}
+	}
+
+	& .close__btn {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-grow: 0;
+
+		margin-left: 5px;
+
+		& button {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			padding: 3px;
+
+			border-radius: 8px;
+
+			cursor: pointer;
+
+			transition: all 0.1s ease;
+
+			&:hover {
+				color: $white;
+			}
+		}
 	}
 }
