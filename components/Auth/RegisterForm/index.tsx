@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import inputs from '../inputs.module.scss';
 import styles from './registerForm.module.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import Panel from '@/components/Panel';
 import FormikLabel from '@/components/FormikComponents/FormikLabel';
@@ -22,6 +22,9 @@ export default function RegisterForm() {
   const router = useRouter();
   const { loading, loggedIn } = useSelector(authSelector);
   const { registerUser } = useActions();
+  useEffect(() => {
+    if (loggedIn && !loading) router.push('/');
+  }, [loggedIn, loading, router]);
   const validationSchema = yup.object({
     name: yup
       .string()
@@ -43,7 +46,7 @@ export default function RegisterForm() {
       .min(8, 'Min length should be 8')
       .max(15, 'Min length should be 15')
       .oneOf([yup.ref('password'), null], 'Password do not match')
-      .required('Password is required'),
+      .required('Password confirmation is required'),
   });
   return (
     <div className={styles.register__form}>
@@ -60,8 +63,14 @@ export default function RegisterForm() {
             }}
             validationSchema={validationSchema}
             onSubmit={async (values) => {
-              registerUser(values);
-              if (!loading && loggedIn) router.push('/');
+              const { name, email, password } = values;
+              registerUser({
+                name,
+                email,
+                password,
+                avatar:
+                  'https://pbs.twimg.com/profile_images/1045580248467886080/_uwwJdr3.jpg',
+              });
             }}
           >
             {() => (
@@ -69,7 +78,7 @@ export default function RegisterForm() {
                 <FormikLabel text={'Enter Credentials'} fontSize={2} />
                 <FormikTextField type='text' name='name' />
                 <FormikLabel text={'Enter email'} fontSize={2} />
-                <FormikTextField type='text' name='email' />
+                <FormikTextField type='email' name='email' />
                 <FormikLabel text={'Enter password'} fontSize={2} />
                 <FormikTextField type='password' name='password' />
                 <FormikLabel text={'Repeat password'} fontSize={2} />
@@ -81,7 +90,7 @@ export default function RegisterForm() {
 
           <ProviderButtons />
           <StyledLink href='/auth/login'>
-            <h1>Back</h1>
+            <h1>Login</h1>
           </StyledLink>
         </div>
       </Panel>

@@ -13,6 +13,14 @@ module.exports = withPlugins(
 		images: {
 			domains: ['cdn.sanity.io', 'pbs.twimg.com'],
 		},
+		rewrites: async ()=> {
+      return [
+        {
+          source: '/api/v1/:path*',
+          destination: 'http://localhost:5000/api/v1/:path*' // Proxy to Backend
+        }
+      ]
+    }
 	}
 );
 

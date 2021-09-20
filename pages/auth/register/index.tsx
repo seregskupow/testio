@@ -2,6 +2,9 @@ import { motion } from 'framer-motion';
 import AuthLayout, { variants } from '@/components/AuthLayout';
 import RegisterForm from '@/components/Auth/RegisterForm';
 import styles from './registerPage.module.scss';
+import { wrapper } from '@/store/index';
+import { ensureAuth } from '@/utils/ensureAuth';
+import { GetServerSideProps } from 'next';
 
 function Register() {
   return (
@@ -20,3 +23,20 @@ function Register() {
 Register.Layout = AuthLayout;
 
 export default Register;
+
+export const getServerSideProps: GetServerSideProps =
+  wrapper.getServerSideProps(() => async (ctx) => {
+    if (await ensureAuth(ctx.req?.headers.cookie)) {
+      return {
+        redirect: {
+          permanent: true,
+          destination: '/',
+        },
+        props: {},
+      };
+    }
+
+    return {
+      props: {},
+    };
+  });

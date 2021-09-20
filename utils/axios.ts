@@ -16,7 +16,7 @@ client.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     if (error.response) {
-      if (error.response.status === 401 || error.response.status === 403) {
+      if (error.response.status === 401) {
         if (!isServer()) {
           Router.push({
             pathname: '/auth/login',

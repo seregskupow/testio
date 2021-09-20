@@ -1,5 +1,5 @@
 import styles from './loginForm.module.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import inputStyes from '../inputs.module.scss';
 import { useRouter } from 'next/router';
 import { Formik, Form } from 'formik';
@@ -21,10 +21,12 @@ import Panel from '@/components/Panel';
 import { authSelector, LoginDTO } from '@/store/slices/auth.slice';
 
 export default function LoginForm() {
-  const dispatch = useDispatch();
   const { loading, loggedIn } = useSelector(authSelector);
-  const { loginUser, setMessage } = useActions();
+  const { loginUser } = useActions();
   const router = useRouter();
+  useEffect(() => {
+    if (loggedIn && !loading) router.push('/');
+  }, [loggedIn, loading, router]);
   //const error = useSelector((state) => state.user.errorMessage);
 
   // const login = async (user: LoginDTO) => {
@@ -69,13 +71,12 @@ export default function LoginForm() {
             <h1 className={styles.login__title}>Login</h1>
             <Formik
               initialValues={{
-                email: 'mail@email.com',
-                password: '12345678',
+                email: 'sergskypow@gmail.com',
+                password: '12345678Ss',
               }}
               validationSchema={validationSchema}
               onSubmit={async (values) => {
                 loginUser(values);
-                if (!loading && loggedIn) router.push('/');
               }}
             >
               {() => (

@@ -1,5 +1,9 @@
 /* eslint-disable react/display-name */
-import { messageSelector } from '@/store/slices/message.slice';
+import {
+  Message,
+  messageSelector,
+  MessageType,
+} from '@/store/slices/message.slice';
 import React, { useEffect, FC, Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Panel from '@/components/Panel';
@@ -15,11 +19,6 @@ interface IToastProps {
   autoDeleteTime?: number;
 }
 
-// export const variants = {
-//   initial: { opacity: 0, scale: 0.9 },
-//   animate: { opacity: 1, scale: 1 },
-// };
-
 const Toast: FC<IToastProps> = ({
   autoDelete = true,
   position = 'top__right',
@@ -29,19 +28,18 @@ const Toast: FC<IToastProps> = ({
   const { removeMessage } = useActions();
 
   useEffect(() => {
+    messageArr.length > 5 && removeMessage(messageArr[0].id);
     const interval = setInterval(() => {
       if (autoDelete && messageArr?.length) {
         removeMessage(messageArr[0].id);
       }
     }, autoDeleteTime);
-
     return () => {
       clearInterval(interval);
     };
   }, [messageArr, autoDelete, autoDeleteTime, removeMessage]);
   return (
     <Fragment>
-      {/* {messageArr?.length > 0 && ( */}
       <AnimateSharedLayout>
         <motion.div layout className={styles.notification__container}>
           <AnimatePresence>
@@ -52,14 +50,13 @@ const Toast: FC<IToastProps> = ({
           </AnimatePresence>
         </motion.div>
       </AnimateSharedLayout>
-      {/* )} */}
     </Fragment>
   );
 };
 
 export default Toast;
 
-const Icontype = (type: string) => {
+const Icontype = (type: MessageType) => {
   switch (type) {
     case 'error':
       return <MdErrorOutline />;

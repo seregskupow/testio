@@ -6,12 +6,17 @@ import { AppState, AppThunk } from '..';
 // interface ErrorPayload {
 //   message: string;
 // }
-interface Message {
+export type MessageType = 'error' | 'warning' | 'info' | 'success';
+export interface Message {
   id: number;
-  type: 'error' | 'warning' | 'info' | 'success';
+  type: MessageType;
   msg: string;
 }
 
+interface MessageAction {
+  type: MessageType;
+  msg: string;
+}
 export interface IMessageState {
   messageArr: Array<Message>;
 }
@@ -23,7 +28,10 @@ export const messageSlice = createSlice({
   name: 'message',
   initialState,
   reducers: {
-    setMessage: (state: IMessageState, action: PayloadAction<Message>) => {
+    setMessage: (
+      state: IMessageState,
+      action: PayloadAction<MessageAction>
+    ) => {
       console.log({ Payload: action.payload });
       state.messageArr.push({ ...action.payload, id: Date.now() });
     },
@@ -35,13 +43,18 @@ export const messageSlice = createSlice({
     },
   },
   extraReducers: {
-    [HYDRATE]: (state, action) => {
-      console.log(action.payload);
-      return {
-        ...state,
-        ...action.payload.message,
-      };
-    },
+    // [HYDRATE]: (state, action) => {
+    //   console.log('MESSAGE', current(state), action.payload);
+    //   console.log(action.payload);
+    //   // return {
+    //   //   ...current(state),
+    //   //   ...action.payload.message,
+    //   // };
+    //   state = {
+    //     ...current(state),
+    //     ...action.payload.message,
+    //   };
+    // },
   },
 });
 

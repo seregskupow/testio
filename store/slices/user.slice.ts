@@ -22,35 +22,32 @@ export interface IUserState {
   name: string;
   email: string;
   avatar: string;
-  isAuthenticated: boolean;
 }
-const initialState: IUserState = {
+export const initialUserState: IUserState = {
   id: 0,
   name: '',
   email: '',
   avatar: '',
-  isAuthenticated: false,
 };
 
 export const userSlice = createSlice({
   name: 'user',
-  initialState,
+  initialState: initialUserState,
   reducers: {
     setUser: (state: IUserState, action: PayloadAction<User>) => {
       return { ...state, ...action.payload };
     },
-    setAuth: (state: IUserState, action: PayloadAction<boolean>) => {
-      state.isAuthenticated = action.payload;
-    },
   },
   extraReducers: {
-    [HYDRATE]: (state, action) => {
-      console.log(action.payload);
-      return {
-        ...state,
-        ...action.payload.user,
-      };
-    },
+    // [HYDRATE]: (state, action) => {
+    //   console.log('USER', current(state), action.payload);
+    //   console.log(action.payload);
+    //   // return {
+    //   //   ...current(state),
+    //   //   ...action.payload.user,
+    //   // };
+    //   return { ...state, ...{ name: 'Gavno' } };
+    // },
   },
 });
 

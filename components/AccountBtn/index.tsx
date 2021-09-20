@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import styles from './accountbtn.module.scss';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Dispatch, SetStateAction } from 'react';
 import { useSelector } from 'react-redux';
 import { FaUser } from 'react-icons/fa';
 import { CgChevronDown } from 'react-icons/cg';
@@ -12,14 +12,12 @@ import Link from 'next/link';
 import { userSelector } from '@/store/slices/user.slice';
 import ThemeToggle from '@/components/ThemeToggle';
 import { authSelector } from '@/store/slices/auth.slice';
+import { useActions } from '@/store/useActions';
 // import ThemeToggle from '../ThemeToggle';
 // import LanguageSwitcher from '../LanguageSwitcher';
 
 function AccountBtn() {
   const { loggedIn } = useSelector(authSelector);
-  // const loggedIn: boolean = useSelector((state) => state.user.loggedInenticated);
-  // const userName: string = useSelector((state) => state.user.userName);
-  // const userAvatar: string = useSelector((state) => state.user.userAvatar);
   const [open, setOpen] = useState<boolean>(false);
   const accBtn = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -61,7 +59,7 @@ function AccountBtn() {
         </i>
       </button>
       <AnimatePresence exitBeforeEnter>
-        {open && <DropdownMenu loggedIn={loggedIn} />}
+        {open && <DropdownMenu setOpen={setOpen} loggedIn={loggedIn} />}
       </AnimatePresence>
     </div>
   );
@@ -94,34 +92,13 @@ const UserBtn = () => {
     </div>
   );
 };
-interface DropdownItemProps {
-  link?: string;
-  icon: any;
-  children: React.ReactNode;
+interface DropdownProps {
+  loggedIn: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }
-const DropdownMenu = ({ loggedIn }: { loggedIn: boolean }) => {
-  const DropdownItem: React.FC<DropdownItemProps> = ({
-    link,
-    icon,
-    children,
-  }) => {
-    if (link) {
-      return (
-        <Link href={link}>
-          <a className={styles.dropdown__item}>
-            <span className={styles.item__left__icon}>{icon}</span>
-            <span>{children}</span>
-          </a>
-        </Link>
-      );
-    }
-    return (
-      <div className={styles.dropdown__item}>
-        <span className={styles.item__left__icon}>{icon}</span>
-        {children}
-      </div>
-    );
-  };
+
+const DropdownMenu: React.FC<DropdownProps> = ({ loggedIn, setOpen }) => {
+  const { logoutUser } = useActions();
 
   return (
     <motion.div
@@ -143,7 +120,14 @@ const DropdownMenu = ({ loggedIn }: { loggedIn: boolean }) => {
         {/* <span>Мова</span> <LanguageSwitcher /> */}
       </DropdownItem>
       {loggedIn ? (
-        <DropdownItem link='#' icon={<RiLogoutCircleRLine />}>
+        <DropdownItem
+          link='/'
+          onClick={() => {
+            logoutUser();
+            setOpen(false);
+          }}
+          icon={<RiLogoutCircleRLine />}
+        >
           Logout
         </DropdownItem>
       ) : (
@@ -152,6 +136,35 @@ const DropdownMenu = ({ loggedIn }: { loggedIn: boolean }) => {
         </DropdownItem>
       )}
     </motion.div>
+  );
+};
+interface DropdownItemProps {
+  link?: string;
+  onClick?: () => void;
+  icon: any;
+  children: React.ReactNode;
+}
+const DropdownItem: React.FC<DropdownItemProps> = ({
+  link,
+  onClick = () => {},
+  icon,
+  children,
+}) => {
+  if (link) {
+    return (
+      <Link href={link}>
+        <a onClick={onClick} className={styles.dropdown__item}>
+          <span className={styles.item__left__icon}>{icon}</span>
+          <span>{children}</span>
+        </a>
+      </Link>
+    );
+  }
+  return (
+    <div onClick={onClick} className={styles.dropdown__item}>
+      <span className={styles.item__left__icon}>{icon}</span>
+      {children}
+    </div>
   );
 };
 

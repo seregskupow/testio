@@ -14,7 +14,7 @@ import Toast from '@/components/Toast';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const { setAuth, setUser, setLoggedIn } = useActions();
+  const { setUser, setLoggedIn, authenticateUser } = useActions();
   const Layout = (Component as PageComponent<any>).Layout
     ? (Component as PageComponent<any>).Layout
     : React.Fragment;
@@ -33,10 +33,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     setTheme();
     // setUser(user);
     // user && setLoggedIn(true);
+    authenticateUser();
     return () => {
       progressBar.off(router);
     };
-  }, [user, router, setLoggedIn, setUser]);
+  }, []);
   return (
     <React.Fragment>
       <Toast />
