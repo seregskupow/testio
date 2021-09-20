@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import {
+  COMPLETED_QUIZ_REPOSITORY,
   QUIZ_DEFAULT_TITLE,
   QUIZ_REPOSITORY,
   USER_ANSWERS_REPOSITORY,
@@ -16,7 +17,7 @@ import { UserAnswers } from '../../entities/userAnswers.entity';
 export class QuizService {
   constructor(
     @Inject(QUIZ_REPOSITORY) private readonly quizRepository: typeof Quiz,
-    @Inject(USER_ANSWERS_REPOSITORY)
+    @Inject(COMPLETED_QUIZ_REPOSITORY)
     private readonly useCompletedQuizRepository: typeof CompletedQuiz,
   ) {}
   async create(userId: number): Promise<QuizDto> {
@@ -39,11 +40,11 @@ export class QuizService {
     return true;
   }
 
-  async update(
-    quizId: number,
-    userId: number,
-    data: UpdateQuizDto,
-  ): Promise<boolean> {
+  async update(userId: number, data: UpdateQuizDto): Promise<boolean> {
+    const { quizId } = data;
+    if (!quizId) {
+      return false;
+    }
     const quiz = await this.quizRepository.findOne({ where: { id: quizId } });
     if (!quiz || quiz['dataValues'].authorId !== userId) return false;
     await quiz.update(data);
@@ -51,6 +52,7 @@ export class QuizService {
   }
 
   async getQuizById(quizId: number): Promise<QuizDto> {
+    if (!quizId) return null;
     return await this.quizRepository
       .findOne({ where: { id: quizId } })
       .then((quiz) => {
@@ -61,6 +63,7 @@ export class QuizService {
   }
 
   async getUserQuizes(userId: number): Promise<QuizDto[]> {
+    if (!userId) return null;
     return await this.quizRepository
       .findAll({ where: { authorId: userId } })
       .then((quizes) => {
@@ -71,6 +74,7 @@ export class QuizService {
   }
 
   async getUserCompletedQuizes(userId: number): Promise<QuizDto[]> {
+    if (!userId) return null;
     return await this.quizRepository
       .findAll({
         //attributes: ['right', 'wrong'],

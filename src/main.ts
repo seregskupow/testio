@@ -6,8 +6,9 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import { SEQUELIZE } from './core/constants';
 import * as SequelizeConnect from 'connect-session-sequelize';
+import * as morgan from 'morgan';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   //global prefix
   app.setGlobalPrefix('api/v1');
 
@@ -35,6 +36,7 @@ async function bootstrap() {
   mystore.sync();
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(morgan('tiny'));
   await app.listen(5000);
 }
 bootstrap();
