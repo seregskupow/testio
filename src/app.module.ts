@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { QuizModule } from './modules/quiz/quiz.module';
+import { ImgUploadModule } from './core/img-upload/img-upload.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { QuizModule } from './modules/quiz/quiz.module';
     UsersModule,
     AuthModule,
     QuizModule,
+    ImgUploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

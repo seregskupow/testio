@@ -37,7 +37,7 @@ export class AuthService {
     const { email, firstName: name, picture: avatar, googleId } = payload;
 
     const user = await this.userService.findOneByEmail(email);
-    if (user) return user;
+    if (user) return await this.userService.update(email, name, avatar);
 
     const newUser = await this.userService.create({
       email,

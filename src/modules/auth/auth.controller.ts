@@ -9,11 +9,16 @@ import {
   InternalServerErrorException,
   UseInterceptors,
   ClassSerializerInterceptor,
+  UploadedFile,
+  Req,
+  NotImplementedException,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthenticatedGuard } from 'src/core/guards/authenticated.guard';
 import { DoesUserExist } from 'src/core/guards/doesUserExist.guard';
 import { GoogleAuthGuard } from 'src/core/guards/googleAuth.guard';
 import { LocalAuthGuard } from 'src/core/guards/localAuth.guard';
+import { ImgUploadService } from 'src/core/img-upload/img-upload.service';
 import { CreateUserDto } from '../users/dto/createUser.dto';
 import { UserDto } from '../users/dto/user.dto';
 import { UsersService } from '../users/users.service';
@@ -21,7 +26,10 @@ import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly imgUploadService: ImgUploadService,
+  ) {}
 
   @UseGuards(LocalAuthGuard)
   //remove sensitive fields from UserDto
@@ -34,9 +42,20 @@ export class AuthController {
   @UseGuards(DoesUserExist)
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('signup')
-  async signUpSeeker(@Body() user: CreateUserDto, @Request() req) {
+  async signUpSeeker(@Body() user: CreateUserDto, @Req() req) {
+    if (req.file) {
+      try {
+        const dataUri =
+          'data:image/jpeg;base64,' + req.file?.buffer.toString('base64');
+        const avatarURL: any = await this.imgUploadService.uploadAvatar(
+          dataUri,
+        );
+        user.avatar = avatarURL.secure_url;
+      } catch (error) {
+        throw new NotImplementedException('Error while uploading avatar');
+      }
+    }
     const newUser = await this.authService.createUser(user);
-    console.log({ newUser });
     req.logIn(newUser, (err) => {
       if (err) {
         throw new InternalServerErrorException('Passport login error occured');
@@ -55,7 +74,7 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   @Get('google/redirect')
   redirect(@Response() res, @Request() req) {
-    res.redirect('/api/v1/protected');
+    res.send('<script>window.close()</script>');
   }
 
   @UseGuards(AuthenticatedGuard)

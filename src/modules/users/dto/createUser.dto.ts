@@ -24,5 +24,5 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsString({ message: 'Avatar should be STRING type' })
-  readonly avatar: string;
+  avatar: string;
 }

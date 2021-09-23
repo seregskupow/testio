@@ -3,24 +3,30 @@ import {
   ExecutionContext,
   Injectable,
   ForbiddenException,
-	NotAcceptableException,
+  NotAcceptableException,
 } from '@nestjs/common';
+import * as multer from 'multer';
+import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { UsersService } from '../../modules/users/users.service';
 
 @Injectable()
 export class DoesUserExist implements CanActivate {
   constructor(private readonly userService: UsersService) {}
-
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    return this.validateRequest(request);
+    const postMulterRequest: any = await new Promise((resolve, reject) => {
+      multer().single('avatar')(request, {} as any, function (err) {
+        if (err) reject(err);
+        resolve(request);
+      });
+    });
+    const email = postMulterRequest.body.email;
+    return this.validateRequest(email);
   }
 
-  async validateRequest(request) {
-    const userExist = await this.userService.findOneByEmail(request.body.email);
+  async validateRequest(email) {
+    const userExist = await this.userService.findOneByEmail(email);
     if (userExist) {
       throw new NotAcceptableException('This email already exist');
     }

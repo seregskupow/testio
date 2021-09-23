@@ -6,11 +6,13 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { SessionSerializer } from './utils/serialize';
+import { ImgUploadModule } from 'src/core/img-upload/img-upload.module';
 
 @Module({
   imports: [
     PassportModule.register({ session: true, defaultStrategy: 'local' }),
     UsersModule,
+    ImgUploadModule,
   ],
   providers: [AuthService, LocalStrategy, GoogleStrategy, SessionSerializer],
   controllers: [AuthController],

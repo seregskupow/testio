@@ -37,6 +37,21 @@ export class UsersService {
       });
   }
 
+  async update(email: string, name: string, avatar: string): Promise<UserDto> {
+    return await this.userRepository
+      .findOne<User>({
+        where: { email: email },
+      })
+      .then(async (user) => {
+        user.name = name;
+        user.avatar = avatar;
+        await user.save();
+        return plainToClass(UserDto, user['dataValues'], {
+          ignoreDecorators: true,
+        });
+      });
+  }
+
   async allUsers(): Promise<UserDto[]> {
     return await this.userRepository
       .findAll({
