@@ -14,6 +14,7 @@ import {
   NotImplementedException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { databaseConfig } from 'src/core/database/database.config';
 import { AuthenticatedGuard } from 'src/core/guards/authenticated.guard';
 import { DoesUserExist } from 'src/core/guards/doesUserExist.guard';
 import { GoogleAuthGuard } from 'src/core/guards/googleAuth.guard';

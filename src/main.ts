@@ -7,6 +7,9 @@ import * as passport from 'passport';
 import { SEQUELIZE } from './core/constants';
 import * as SequelizeConnect from 'connect-session-sequelize';
 import * as morgan from 'morgan';
+import * as bodyParser from 'body-parser';
+import { urlencoded, json } from 'express';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   //global prefix
@@ -37,6 +40,8 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(morgan('tiny'));
+  app.use(json({ limit: '50mb' }));
+  app.use(urlencoded({ extended: true, limit: '50mb' }));
   await app.listen(5000);
 }
 bootstrap();
