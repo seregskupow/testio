@@ -1,34 +1,34 @@
 .btn {
-    padding: 10px;
+	padding: 10px;
 
-    font-size: 1.5rem;
-    font-weight: bold;
+	//font-size: 1.5rem;
+	font-weight: bold;
 
-    border-radius: 8px;
+	border-radius: 8px;
 
-    box-sizing: border-box;
+	box-sizing: border-box;
 
-    cursor: pointer;
+	cursor: pointer;
 
-    transition: background 0.1s linear;
+	transition: background 0.1s linear;
 }
 .btn-contrast {
-    background-color: var(--color-contrast);
+	background-color: var(--color-contrast);
 
-    color: var(--dark-text);
+	color: $white;
 
-    &:hover {
-        background-color: rgba(var(--color-contrast-rgb), 0.8);
-    }
+	&:hover {
+		background: var(--color-contrast-light);
+	}
 }
 .btn-default {
-    background-color: var(--color-field);
+	background-color: var(--color-field);
 
-    border: 1px solid var(--color-border);
+	border: 1px solid var(--color-border);
 
-    color: var(--color-text);
+	color: $white;
 
-    &:hover {
-        background-color: var(--color-hover);
-    }
+	&:hover {
+		background-color: var(--color-hover);
+	}
 }

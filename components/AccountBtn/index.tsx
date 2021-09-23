@@ -72,14 +72,16 @@ const UserBtn = () => {
   const [userImage, setUserImg] = useState<string>('');
 
   useEffect(() => {
-    const img = new Image();
+    let img = new Image();
     img.onerror = () => {
       setImgError(true);
     };
-    console.log({ userAvatar });
     img.src = userAvatar;
     setUserImg(userAvatar);
     setImgError(false);
+    return () => {
+      img = null;
+    };
   }, [userAvatar, setUserImg, setImgError]);
   return (
     <div className={styles.user__logged}>

@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import inputs from '../inputs.module.scss';
 import styles from './registerForm.module.scss';
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import Panel from '@/components/Panel';
 import FormikLabel from '@/components/FormikComponents/FormikLabel';
@@ -17,14 +17,37 @@ import ProviderButtons from '@/components/Auth/ProvidersButtons';
 import StyledLink from '@/components/Controls/StyledLink';
 import { authSelector, RegisterDTO } from '@/store/slices/auth.slice';
 import { useSelector } from 'react-redux';
+import AvatarPicker, {
+  defaultImgOptions,
+  IimgOptions,
+} from '@/components/AvatarPicker';
+import Button from '@/components/Controls/Button';
+import Image from 'next/image';
+import AvatarPlaceholder from '@/images/testio_placeholder.jpg';
 
 export default function RegisterForm() {
   const router = useRouter();
+  let imageUpload: any;
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
+  const [originalImage, setOriginalImage] = useState<string | null>(
+    AvatarPlaceholder.src
+  );
+  const [imgOptions, setImageoptions] =
+    useState<IimgOptions>(defaultImgOptions);
+  const [avatar, setAvatar] = useState<string | null>(AvatarPlaceholder.src);
   const { loading, loggedIn } = useSelector(authSelector);
   const { registerUser } = useActions();
+  const triggerInput = () => {
+    imageUpload?.click();
+  };
   useEffect(() => {
     if (loggedIn && !loading) router.push('/');
   }, [loggedIn, loading, router]);
+  // useEffect(() => {
+  //   if (avatar !== AvatarPlaceholder.src && avatar !== null) {
+  //     setShowAvatarPicker(true);
+  //   }
+  // }, [avatar]);
   const validationSchema = yup.object({
     name: yup
       .string()
@@ -53,6 +76,65 @@ export default function RegisterForm() {
       <Panel>
         <div className={styles.register__inner}>
           <h1 className={styles.register__title}>Register</h1>
+          <AnimatePresence exitBeforeEnter>
+            {showAvatarPicker && (
+              <AvatarPicker
+                image={originalImage as string}
+                getImage={setAvatar}
+                getOptions={setImageoptions}
+                imgOptions={imgOptions}
+                closePicker={() => setShowAvatarPicker(false)}
+              />
+            )}
+          </AnimatePresence>
+          {avatar && (
+            <Fragment>
+              <div
+                onClick={() => setShowAvatarPicker(true)}
+                className={`${styles.avatar__wrapper} mb-10 btn__click`}
+              >
+                <Image
+                  src={avatar}
+                  width={AvatarPlaceholder.width}
+                  height={AvatarPlaceholder.height}
+                  layout='responsive'
+                  alt='avatar'
+                />
+              </div>
+              <p className='mb-10'>Click on image to configure</p>
+            </Fragment>
+          )}
+          <div className={`${styles.img__controls} mb-20`}>
+            <Button text='Choose image' event={triggerInput} />
+            <Button
+              text='Reset image'
+              event={() => {
+                setAvatar(AvatarPlaceholder.src);
+                setOriginalImage(AvatarPlaceholder.src);
+                setImageoptions(defaultImgOptions);
+              }}
+            />
+          </div>
+          <input
+            ref={(upload) => (imageUpload = upload)}
+            id='avatar'
+            type='file'
+            accept='image/*'
+            onChange={(e) => {
+              if (e.target?.files?.length) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  const img = reader.result?.toString() as string;
+                  setOriginalImage(img);
+                  setAvatar(img);
+                  setImageoptions(defaultImgOptions);
+                  setShowAvatarPicker(true);
+                };
+                reader.readAsDataURL(e.target?.files[0]);
+              }
+            }}
+          />
+
           <Formik
             validateOnChange
             initialValues={{
@@ -68,8 +150,7 @@ export default function RegisterForm() {
                 name,
                 email,
                 password,
-                avatar:
-                  'https://pbs.twimg.com/profile_images/1045580248467886080/_uwwJdr3.jpg',
+                avatar: avatar as string,
               });
             }}
           >

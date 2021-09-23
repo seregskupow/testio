@@ -11,6 +11,7 @@ import { setMessage } from './message.slice';
 import { initialUserState, User } from './user.slice';
 import { userActions } from './user.slice';
 import { AxiosError } from 'axios';
+import { dataURItoBlob } from '@/utils/dataUriToBlob';
 
 export interface LoginDTO {
   email: string;
@@ -81,15 +82,6 @@ const loginUser = (user: LoginDTO) => {
             (error as AxiosError).message,
         })
       );
-      // dispatch(
-      //   setMessage({ type: 'warning', msg: (error as AxiosError).message })
-      // );
-      // dispatch(
-      //   setMessage({ type: 'info', msg: (error as AxiosError).message })
-      // );
-      // dispatch(
-      //   setMessage({ type: 'success', msg: (error as AxiosError).message })
-      // );
     }
   };
 };
@@ -98,14 +90,21 @@ const registerUser = (user: RegisterDTO) => {
   return async (dispatch: AppDispatch) => {
     try {
       dispatch(setLoading(true));
-      const data: User = await axiosClient.post('/auth/signup', user);
-      console.log({ REGISTERED: data });
+      const bodyFormData = new FormData();
+      const blob = dataURItoBlob(user.avatar);
+      const file = new File([blob], 'avatar.jpg', { type: 'image/jpeg' });
+      bodyFormData.append('avatar', file);
+      bodyFormData.append('name', user.name);
+      bodyFormData.append('email', user.email);
+      bodyFormData.append('password', user.password);
+      const data: User = await axiosClient.post('/auth/signup', bodyFormData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
       dispatch(userActions.setUser(data));
       dispatch(setLoggedIn(true));
       dispatch(setMessage({ type: 'success', msg: 'Successful register' }));
       dispatch(setLoading(false));
     } catch (error) {
-      console.log({ ERROR: error });
       dispatch(setLoggedIn(false));
       dispatch(setLoading(false));
       dispatch(

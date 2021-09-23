@@ -11,7 +11,7 @@ module.exports = withPlugins(
 			prependData: `@import "main.scss";`,
 		},
 		images: {
-			domains: ['cdn.sanity.io', 'pbs.twimg.com'],
+			domains: ['cdn.sanity.io', 'pbs.twimg.com','https://lh3.googleusercontent.com'],
 		},
 		rewrites: async ()=> {
       return [

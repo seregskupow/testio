@@ -54,6 +54,45 @@ button:focus {
 
 	cursor: pointer;
 }
+//////////////////////////////RANGE///////////////////////////////
+input[type="range"] {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 100%;
+	height: 5px;
+	background: var(--color-field);
+	border: 1px solid var(--color-border);
+	border-radius: 999px;
+	transition: all 0.3s;
+
+	&:hover {
+		background: var(--color-contrast-light);
+	}
+
+	&::-webkit-slider-thumb {
+		position: relative;
+		-webkit-appearance: none;
+		width: 20px;
+		height: 20px;
+		background: var(--color-contrast);
+		border: 1px solid var(--color-contrast-light);
+		border-radius: 999px;
+
+		cursor: pointer;
+	}
+
+	&::-moz-range-thumb,
+	&::-webkit-slider-thumb {
+		appearance: none;
+		width: 20px;
+		height: 20px;
+		background: var(--color-contrast);
+		border: 1px solid var(--color-contrast-light);
+		border-radius: 999px;
+
+		cursor: pointer;
+	}
+}
 
 .banner {
 	width: 100%;
@@ -112,6 +151,7 @@ button:focus {
 	--color-primary: #{$lightPrimary};
 	--color-hover: #{$lightHover};
 	--color-background: #{$lightBackground};
+	--color-background-rgb: 250, 250, 250;
 	--color-border: #{$lightBorder};
 	--color-field: #{$lightInput};
 	--color-field-rgb: #{$lightInputRGB};
@@ -134,6 +174,7 @@ button:focus {
 	--color-primary: #{$darkPrimary};
 	--color-hover: #{$darkHover};
 	--color-background: #{$darkBackground};
+	--color-background-rgb: 17, 17, 17;
 	--color-border: #{$darkBorder};
 	--color-field: #{$darkInput};
 	--color-field-rgb: #{$darkInputRGB};
