@@ -50,11 +50,15 @@
 		align-items: center;
 
 		& .hot-links {
-			display: inline-flex;
+			display: none;
 			flex-direction: row;
 
 			margin-right: 8px;
-			
+
+			@include media("md") {
+				display: inline-flex;
+			}
+
 			& .hot-links__item {
 				display: flex;
 				align-items: center;

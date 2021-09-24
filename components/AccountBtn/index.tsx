@@ -15,7 +15,7 @@ import { authSelector } from '@/store/slices/auth.slice';
 import { useActions } from '@/store/useActions';
 // import ThemeToggle from '../ThemeToggle';
 // import LanguageSwitcher from '../LanguageSwitcher';
-
+import NextImage from 'next/image';
 function AccountBtn() {
   const { loggedIn } = useSelector(authSelector);
   const [open, setOpen] = useState<boolean>(false);
@@ -69,7 +69,7 @@ export default AccountBtn;
 const UserBtn = () => {
   const { avatar: userAvatar, name: userName } = useSelector(userSelector);
   const [imgError, setImgError] = useState<boolean>(false);
-  const [userImage, setUserImg] = useState<string>('');
+  const [userImage, setUserImg] = useState<string>(userAvatar);
 
   useEffect(() => {
     let img = new Image();
@@ -77,7 +77,10 @@ const UserBtn = () => {
       setImgError(true);
     };
     img.src = userAvatar;
-    setUserImg(userAvatar);
+    img.onload = () => {
+      setUserImg(userAvatar);
+    };
+
     setImgError(false);
     return () => {
       img = null;
@@ -88,7 +91,7 @@ const UserBtn = () => {
       {imgError === true ? (
         <ShortLogo userName={userName} />
       ) : (
-        <img src={userImage} alt='' />
+        <NextImage src={userImage} width={384} height={384} alt='avatar' />
       )}
       <span>{userName}</span>
     </div>
@@ -101,7 +104,7 @@ interface DropdownProps {
 
 const DropdownMenu: React.FC<DropdownProps> = ({ loggedIn, setOpen }) => {
   const { logoutUser } = useActions();
-
+  const { name: userName } = useSelector(userSelector);
   return (
     <motion.div
       initial={{ opacity: 0, scaleY: 0 }}
@@ -111,16 +114,27 @@ const DropdownMenu: React.FC<DropdownProps> = ({ loggedIn, setOpen }) => {
       className={styles.user__dropdown}
     >
       {loggedIn && (
-        <DropdownItem link='/account' icon={<RiAccountBoxLine />}>
-          Account
-        </DropdownItem>
+        <>
+          <div className={styles.greeting}>Welcome,{userName}</div>
+          <DropdownItem
+            onClick={() => {
+              setOpen(false);
+            }}
+            link='/profile'
+            icon={<RiAccountBoxLine />}
+          >
+            Profile
+          </DropdownItem>
+        </>
       )}
       <DropdownItem icon={<AiFillFormatPainter />}>
         <ThemeToggle />
       </DropdownItem>
+
       <DropdownItem icon={<MdLanguage />}>
         {/* <span>Мова</span> <LanguageSwitcher /> */}
       </DropdownItem>
+
       {loggedIn ? (
         <DropdownItem
           link='/'

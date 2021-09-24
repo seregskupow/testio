@@ -24,8 +24,10 @@ import AvatarPicker, {
 import Button from '@/components/Controls/Button';
 import Image from 'next/image';
 import AvatarPlaceholder from '@/images/testio_placeholder.jpg';
+import { checkIfImage } from '@/utils/imageExtention';
 
 export default function RegisterForm() {
+  const { setMessage } = useActions();
   const router = useRouter();
   let imageUpload: any;
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
@@ -122,8 +124,19 @@ export default function RegisterForm() {
             accept='image/*'
             onChange={(e) => {
               if (e.target?.files?.length) {
+                if (!checkIfImage(e.target.value)) {
+                  setMessage({
+                    type: 'warning',
+                    msg: 'Only .jpg, .jpeg, .png, .gif files allowed',
+                  });
+                  return;
+                }
                 const reader = new FileReader();
                 reader.onloadend = () => {
+                  setMessage({
+                    type: 'info',
+                    msg: 'Successful image upload',
+                  });
                   const img = reader.result?.toString() as string;
                   setOriginalImage(img);
                   setAvatar(img);
@@ -131,6 +144,12 @@ export default function RegisterForm() {
                   setShowAvatarPicker(true);
                 };
                 reader.readAsDataURL(e.target?.files[0]);
+                reader.onerror = () => {
+                  setMessage({
+                    type: 'error',
+                    msg: 'FileReader error occured',
+                  });
+                };
               }
             }}
           />

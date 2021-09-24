@@ -26,7 +26,7 @@ export default Register;
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps(() => async (ctx) => {
-    if (await ensureAuth(ctx.req?.headers.cookie)) {
+    if (await ensureAuth(ctx)) {
       return {
         redirect: {
           permanent: true,

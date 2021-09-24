@@ -6,6 +6,7 @@ import AvatarPlaceholder from '@/images/testio_placeholder.jpg';
 import { motion } from 'framer-motion';
 import Panel from '../Panel';
 import { disableScrolling, enableScrolling } from '@/utils/windowScroll';
+import { useActions } from '@/store/useActions';
 
 export interface IimgOptions {
   scale: number;
@@ -49,6 +50,7 @@ const AvatarPicker: FC<IAvatarPicker> = ({
   closePicker = () => {},
   imgOptions = defaultImgOptions,
 }) => {
+  const { setMessage } = useActions();
   let Editor: any;
   const [scale, setScale] = useState<number>(imgOptions.scale);
   const [rotate, setRotate] = useState<number>(imgOptions.rotate);
@@ -80,20 +82,22 @@ const AvatarPicker: FC<IAvatarPicker> = ({
       >
         <Panel>
           <div className={styles.avatar__picker__inner}>
-            <AvatarEditor
-              ref={(editor) => (Editor = editor)}
-              image={image}
-              width={384}
-              height={384}
-              border={10}
-              scale={scale}
-              rotate={rotate}
-              position={position}
-              borderRadius={5}
-              onPositionChange={(pos) => {
-                setPosition(pos);
-              }}
-            />
+            <div className={styles.editor__wrapper}>
+              <AvatarEditor
+                ref={(editor) => (Editor = editor)}
+                image={image}
+                width={384}
+                height={384}
+                border={10}
+                scale={scale}
+                rotate={rotate}
+                position={position}
+                borderRadius={5}
+                onPositionChange={(pos) => {
+                  setPosition(pos);
+                }}
+              />
+            </div>
             <div className={styles.avatar__settings}>
               {/* Scale */}
               <Fragment>
@@ -224,19 +228,20 @@ const AvatarPicker: FC<IAvatarPicker> = ({
             </div>
             <div className={styles.form__controls}>
               <Button
-                className='m-10'
+                className='mr-5'
                 fontSize={2}
                 text='Save'
                 color='contrast'
                 event={() => {
+                  setMessage({ type: 'success', msg: 'Avatar changed' });
                   getImage(Editor.getImage().toDataURL());
                   getOptions({ rotate, scale, position });
                   closePicker();
                 }}
               />
               <Button
-                className='m-10'
-                fontSize={2}
+                className='ml-5'
+                fontSize={1.8}
                 text='Close'
                 event={closePicker}
               />

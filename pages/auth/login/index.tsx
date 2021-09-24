@@ -30,8 +30,7 @@ export default Login;
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (ctx) => {
-    console.log(await ensureAuth(ctx.req?.headers.cookie));
-    if (await ensureAuth(ctx.req?.headers.cookie)) {
+    if (await ensureAuth(ctx)) {
       return {
         redirect: {
           permanent: true,
