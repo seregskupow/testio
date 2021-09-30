@@ -6,12 +6,13 @@ import LoginForm from '@/components/Auth/LoginForm';
 import { wrapper } from '@/store/index';
 import { GetServerSideProps } from 'next';
 import { ensureAuth } from '@/utils/ensureAuth';
+import { ReactElement } from 'react';
 
 interface LoginProps {
   user: User;
 }
 
-const Login: PageComponent = () => {
+const Login = () => {
   return (
     <motion.div
       key='register'
@@ -25,7 +26,9 @@ const Login: PageComponent = () => {
   );
 };
 
-Login.Layout = AuthLayout;
+Login.getLayout = (page: ReactElement) => {
+  return <AuthLayout>{page}</AuthLayout>;
+};
 export default Login;
 
 export const getServerSideProps: GetServerSideProps =

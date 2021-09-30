@@ -1,0 +1,30 @@
+.profile__layout {
+	width: 90%;
+	max-width: 1200px;
+	margin: 0 auto;
+	margin-top: 8rem;
+
+	display: flex;
+}
+.sidebar {
+	width: 20%;
+	margin-right: 2rem;
+	& .menu {
+		display: flex;
+		flex-direction: column;
+
+		& a {
+			display: flex;
+			align-items: center;
+
+			font-size: 1.6rem;
+			& svg {
+				font-size: 2rem;
+				margin-right: 10px;
+			}
+		}
+	}
+}
+.content {
+	flex-grow: 1;
+}

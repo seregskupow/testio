@@ -26,10 +26,12 @@ export interface RegisterDTO {
 }
 
 export interface IAuthState {
+  authenticationLoading: boolean;
   loading: boolean;
   loggedIn: boolean;
 }
 const initialState: IAuthState = {
+  authenticationLoading: true,
   loading: false,
   loggedIn: false,
 };
@@ -38,6 +40,9 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    setAuthLoading: (state: IAuthState, action: PayloadAction<boolean>) => {
+      state.authenticationLoading = action.payload;
+    },
     setLoading: (state: IAuthState, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
@@ -60,7 +65,7 @@ export const authSlice = createSlice({
     // },
   },
 });
-const { setLoading, setLoggedIn } = authSlice.actions;
+const { setLoading, setLoggedIn, setAuthLoading } = authSlice.actions;
 
 const loginUser = (user: LoginDTO) => {
   return async (dispatch: AppDispatch) => {
@@ -122,14 +127,18 @@ const registerUser = (user: RegisterDTO) => {
 const authenticateUser = () => {
   return async (dispatch: AppDispatch) => {
     try {
+      dispatch(setAuthLoading(true));
       const user: User = await axiosClient.get('/users/me');
       console.log({ AUTHUSER: user });
       dispatch(userActions.setUser(user));
       dispatch(setLoggedIn(true));
+      dispatch(setAuthLoading(false));
       dispatch(
         setMessage({ type: 'success', msg: `Logged in as ${user.name}` })
       );
     } catch (error) {
+      dispatch(setLoggedIn(false));
+      dispatch(setAuthLoading(false));
       const axiosError = error as AxiosError;
       if (
         axiosError.response?.status === 403 ||

@@ -1,10 +1,10 @@
-import styles from './avatarPicker.module.scss';
+import styles from './imageEditor.module.scss';
 import { FC, Fragment, useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
-import Button from '../Controls/Button';
+import Button from '@/components//Controls/Button';
 import AvatarPlaceholder from '@/images/testio_placeholder.jpg';
 import { motion } from 'framer-motion';
-import Panel from '../Panel';
+import Panel from '@/components//Panel';
 import { disableScrolling, enableScrolling } from '@/utils/windowScroll';
 import { useActions } from '@/store/useActions';
 
@@ -25,7 +25,7 @@ export const defaultImgOptions = {
   },
 };
 
-interface IAvatarPicker {
+interface IImageEditor {
   image: string;
   getImage: (image: string) => void;
   getOptions?: (imgOptions: IimgOptions) => void;
@@ -43,7 +43,7 @@ const variantsBg = {
   exit: { opacity: 0 },
 };
 
-const AvatarPicker: FC<IAvatarPicker> = ({
+const ImageEditor: FC<IImageEditor> = ({
   image,
   getImage,
   getOptions = () => {},
@@ -253,4 +253,4 @@ const AvatarPicker: FC<IAvatarPicker> = ({
   );
 };
 
-export default AvatarPicker;
+export default ImageEditor;

@@ -5,6 +5,7 @@ import styles from './registerPage.module.scss';
 import { wrapper } from '@/store/index';
 import { ensureAuth } from '@/utils/ensureAuth';
 import { GetServerSideProps } from 'next';
+import { ReactElement } from 'react';
 
 function Register() {
   return (
@@ -20,8 +21,10 @@ function Register() {
     </motion.div>
   );
 }
-Register.Layout = AuthLayout;
 
+Register.getLayout = (page: ReactElement) => {
+  return <AuthLayout>{page}</AuthLayout>;
+};
 export default Register;
 
 export const getServerSideProps: GetServerSideProps =

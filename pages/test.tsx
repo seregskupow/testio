@@ -2,7 +2,6 @@ import type { GetServerSideProps, NextPage } from 'next';
 import { useDispatch, useSelector } from 'react-redux';
 import userSlice, {
   IUserState,
-  setUser,
   User,
   userSelector,
 } from '@/store/slices/user.slice';
@@ -10,7 +9,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { AppState, wrapper } from '../store';
 import styles from '../styles/Home.module.css';
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { axiosClient } from '@/utils/axios';
 import { ensureAuth } from '@/utils/ensureAuth';
 import Layout from '@/components/Layout';
@@ -33,21 +32,7 @@ const Home = () => {
 
       <main className={styles.main}>
         <h1>{user.name}</h1>
-        <button
-          onClick={() => {
-            dispatch(
-              setUser({
-                name: 'kurwa',
-                id: 45,
-                email: 'email@email.com',
-                avatar:
-                  'https://pbs.twimg.com/profile_images/1045580248467886080/_uwwJdr3.jpg',
-              })
-            );
-          }}
-        >
-          change user
-        </button>
+        <button>change user</button>
         <h1 className={styles.title}>
           Welcome to{' '}
           <StyledLink href='https://nextjs.org'>
@@ -107,7 +92,9 @@ const Home = () => {
   );
 };
 
-Home.Layout = Layout;
+Home.getLayout = (page: ReactElement) => {
+  return <Layout>{page}</Layout>;
+};
 export default Home;
 
 export const getServerSideProps: GetServerSideProps =

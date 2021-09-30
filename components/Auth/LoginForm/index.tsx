@@ -19,6 +19,7 @@ import { User } from '@/store/slices/user.slice';
 import { AxiosError } from 'axios';
 import Panel from '@/components/Panel';
 import { authSelector, LoginDTO } from '@/store/slices/auth.slice';
+import { validationSchema } from '@/utils/validationSchemas';
 
 export default function LoginForm() {
   const { loading, loggedIn } = useSelector(authSelector);
@@ -45,18 +46,6 @@ export default function LoginForm() {
   //     });
   // };
 
-  const validationSchema = yup.object({
-    email: yup.string().email('Email is invalid').required('Email is required'),
-    password: yup
-      .string()
-      .min(8, 'Min length should be 8 characters')
-      .max(20, 'Max length should be 20 characters')
-      // .matches(
-      //   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/,
-      //   t("auth:invalidPassword")
-      // )
-      .required('Password is required'),
-  });
   return (
     <div className={styles.login__form}>
       <Panel padding={0}>
@@ -74,7 +63,7 @@ export default function LoginForm() {
                 email: 'sergskypow@gmail.com',
                 password: '12345678Ss',
               }}
-              validationSchema={validationSchema}
+              validationSchema={validationSchema.LOGIN}
               onSubmit={async (values) => {
                 loginUser(values);
               }}

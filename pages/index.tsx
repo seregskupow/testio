@@ -9,7 +9,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { AppState, wrapper } from '../store';
 import styles from '../styles/Home.module.css';
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { axiosClient } from '@/utils/axios';
 import { ensureAuth } from '@/utils/ensureAuth';
 import Layout from '@/components/Layout';
@@ -105,7 +105,9 @@ const Home = () => {
   );
 };
 
-Home.Layout = Layout;
+Home.getLayout = (page: ReactElement) => {
+  return <Layout>{page}</Layout>;
+};
 export default Home;
 
 export const getServerSideProps: GetServerSideProps =

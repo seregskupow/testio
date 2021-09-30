@@ -1,9 +1,9 @@
 import '../styles/global.scss';
 import type { AppProps } from 'next/app';
 import { wrapper } from '@/store/index';
-import { useEffect, useMemo } from 'react';
+import { ReactElement, ReactNode, useEffect, useMemo } from 'react';
 import { User } from '@/store/slices/user.slice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
 import { PageComponent } from 'interfaces';
 import { setTheme } from '@/utils/setTheme';
@@ -11,13 +11,22 @@ import { useRouter } from 'next/router';
 import { progressBar } from '@/utils/progressBar';
 import { useActions } from '@/store/useActions';
 import Toast from '@/components/Toast';
+import { NextPage } from 'next';
+import { authSelector } from '@/store/slices/auth.slice';
 
-function MyApp({ Component, pageProps }: AppProps) {
+type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const router = useRouter();
-  const { setUser, setLoggedIn, authenticateUser } = useActions();
-  const Layout = (Component as PageComponent<any>).Layout
-    ? (Component as PageComponent<any>).Layout
-    : React.Fragment;
+  const { authenticateUser } = useActions();
+
+  const getLayout = Component.getLayout ?? ((page) => page);
   const user: User = useMemo(() => {
     return {
       name: 'sereg',
@@ -41,9 +50,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <React.Fragment>
       <Toast />
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      {getLayout(<Component {...pageProps} />)}
     </React.Fragment>
   );
 }

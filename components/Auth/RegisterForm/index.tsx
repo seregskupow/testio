@@ -17,31 +17,18 @@ import ProviderButtons from '@/components/Auth/ProvidersButtons';
 import StyledLink from '@/components/Controls/StyledLink';
 import { authSelector, RegisterDTO } from '@/store/slices/auth.slice';
 import { useSelector } from 'react-redux';
-import AvatarPicker, {
-  defaultImgOptions,
-  IimgOptions,
-} from '@/components/AvatarPicker';
 import Button from '@/components/Controls/Button';
 import Image from 'next/image';
 import AvatarPlaceholder from '@/images/testio_placeholder.jpg';
 import { checkIfImage } from '@/utils/imageExtention';
+import { validationSchema } from '@/utils/validationSchemas';
+import ImagePicker from '@/components/ImagePicker';
 
 export default function RegisterForm() {
-  const { setMessage } = useActions();
   const router = useRouter();
-  let imageUpload: any;
-  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
-  const [originalImage, setOriginalImage] = useState<string | null>(
-    AvatarPlaceholder.src
-  );
-  const [imgOptions, setImageoptions] =
-    useState<IimgOptions>(defaultImgOptions);
-  const [avatar, setAvatar] = useState<string | null>(AvatarPlaceholder.src);
+  const [avatar, setAvatar] = useState<string | null>(null);
   const { loading, loggedIn } = useSelector(authSelector);
   const { registerUser } = useActions();
-  const triggerInput = () => {
-    imageUpload?.click();
-  };
   useEffect(() => {
     if (loggedIn && !loading) router.push('/');
   }, [loggedIn, loading, router]);
@@ -50,109 +37,42 @@ export default function RegisterForm() {
   //     setShowAvatarPicker(true);
   //   }
   // }, [avatar]);
-  const validationSchema = yup.object({
-    name: yup
-      .string()
-      .min(6, 'Min length should be 6')
-      .max(20, 'Max length should be 15')
-      .required(),
-    email: yup.string().email('Email is invalid').required('Email is required'),
-    password: yup
-      .string()
-      .min(8, 'Min length should be 8')
-      .max(15, 'Max length should be 15')
-      .matches(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/,
-        'Password is invalid'
-      )
-      .required('Password is required'),
-    passwordConfirmation: yup
-      .string()
-      .min(8, 'Min length should be 8')
-      .max(15, 'Min length should be 15')
-      .oneOf([yup.ref('password'), null], 'Password do not match')
-      .required('Password confirmation is required'),
-  });
+
   return (
     <div className={styles.register__form}>
       <Panel>
         <div className={styles.register__inner}>
           <h1 className={styles.register__title}>Register</h1>
-          <AnimatePresence exitBeforeEnter>
-            {showAvatarPicker && (
-              <AvatarPicker
-                image={originalImage as string}
-                getImage={setAvatar}
-                getOptions={setImageoptions}
-                imgOptions={imgOptions}
-                closePicker={() => setShowAvatarPicker(false)}
-              />
+          <ImagePicker
+            initialImage={AvatarPlaceholder.src}
+            getImage={setAvatar}
+          >
+            {({ setShowAvatarPicker, triggerInput, resetImage, avatar }) => (
+              <Fragment>
+                {avatar && (
+                  <Fragment>
+                    <div
+                      onClick={() => setShowAvatarPicker(true)}
+                      className={`${styles.avatar__wrapper} mb-10 btn__click`}
+                    >
+                      <Image
+                        src={avatar}
+                        width={300}
+                        height={300}
+                        layout='responsive'
+                        alt='avatar'
+                      />
+                    </div>
+                    <p className='mb-10'>Click on image to configure</p>
+                  </Fragment>
+                )}
+                <div className={`${styles.img__controls} mb-20`}>
+                  <Button text='Choose image' event={triggerInput} />
+                  <Button text='Reset image' event={resetImage} />
+                </div>
+              </Fragment>
             )}
-          </AnimatePresence>
-          {avatar && (
-            <Fragment>
-              <div
-                onClick={() => setShowAvatarPicker(true)}
-                className={`${styles.avatar__wrapper} mb-10 btn__click`}
-              >
-                <Image
-                  src={avatar}
-                  width={AvatarPlaceholder.width}
-                  height={AvatarPlaceholder.height}
-                  layout='responsive'
-                  alt='avatar'
-                />
-              </div>
-              <p className='mb-10'>Click on image to configure</p>
-            </Fragment>
-          )}
-          <div className={`${styles.img__controls} mb-20`}>
-            <Button text='Choose image' event={triggerInput} />
-            <Button
-              text='Reset image'
-              event={() => {
-                setAvatar(AvatarPlaceholder.src);
-                setOriginalImage(AvatarPlaceholder.src);
-                setImageoptions(defaultImgOptions);
-              }}
-            />
-          </div>
-          <input
-            ref={(upload) => (imageUpload = upload)}
-            id='avatar'
-            type='file'
-            accept='image/*'
-            onChange={(e) => {
-              if (e.target?.files?.length) {
-                if (!checkIfImage(e.target.value)) {
-                  setMessage({
-                    type: 'warning',
-                    msg: 'Only .jpg, .jpeg, .png, .gif files allowed',
-                  });
-                  return;
-                }
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                  setMessage({
-                    type: 'info',
-                    msg: 'Successful image upload',
-                  });
-                  const img = reader.result?.toString() as string;
-                  setOriginalImage(img);
-                  setAvatar(img);
-                  setImageoptions(defaultImgOptions);
-                  setShowAvatarPicker(true);
-                };
-                reader.readAsDataURL(e.target?.files[0]);
-                reader.onerror = () => {
-                  setMessage({
-                    type: 'error',
-                    msg: 'FileReader error occured',
-                  });
-                };
-              }
-            }}
-          />
+          </ImagePicker>
 
           <Formik
             validateOnChange
@@ -162,7 +82,7 @@ export default function RegisterForm() {
               password: '',
               passwordConfirmation: '',
             }}
-            validationSchema={validationSchema}
+            validationSchema={validationSchema.REGISTER}
             onSubmit={async (values) => {
               const { name, email, password } = values;
               registerUser({
