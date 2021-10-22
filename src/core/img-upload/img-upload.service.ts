@@ -8,7 +8,7 @@ export class ImgUploadService {
     @Inject(IMG_UPLOADER) private readonly uploader: typeof UploaderType,
   ) {}
 
-  uploadImg(dataUri: string, folder: string) {
+  private uploadImg(dataUri: string, folder: string) {
     return new Promise((resolve, reject) => {
       this.uploader.upload(
         dataUri,
@@ -29,7 +29,7 @@ export class ImgUploadService {
     });
   }
 
-  uploadAvatar(dataUri: string) {
+  public uploadAvatar(dataUri: string) {
     return this.uploadImg(dataUri, 'avatars');
   }
 }

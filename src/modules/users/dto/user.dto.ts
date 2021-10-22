@@ -10,7 +10,7 @@ import {
 import { Exclude } from 'class-transformer';
 export class UserDto {
   @IsOptional()
-  readonly id?: number;
+  readonly id: number;
 
   @IsNotEmpty()
   @IsString({ message: 'Name should be STRING type' })

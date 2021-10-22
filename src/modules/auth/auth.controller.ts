@@ -12,6 +12,7 @@ import {
   UploadedFile,
   Req,
   NotImplementedException,
+  Param,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { databaseConfig } from 'src/core/database/database.config';
@@ -20,16 +21,18 @@ import { DoesUserExist } from 'src/core/guards/doesUserExist.guard';
 import { GoogleAuthGuard } from 'src/core/guards/googleAuth.guard';
 import { LocalAuthGuard } from 'src/core/guards/localAuth.guard';
 import { ImgUploadService } from 'src/core/img-upload/img-upload.service';
+import { MailService } from 'src/core/mailer/mailer.service';
 import { CreateUserDto } from '../users/dto/createUser.dto';
 import { UserDto } from '../users/dto/user.dto';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
-
+import { join } from 'path';
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly imgUploadService: ImgUploadService,
+    private readonly mailService: MailService,
   ) {}
 
   @UseGuards(LocalAuthGuard)
@@ -83,5 +86,11 @@ export class AuthController {
   async logout(@Request() req, @Response() res) {
     req.logOut();
     return res.json({ msg: 'logged out' });
+  }
+
+  @Get('email/:email')
+  async email(@Param('email') email) {
+    await this.mailService.confirmEmail(email, Math.random().toString());
+    return 'complete';
   }
 }

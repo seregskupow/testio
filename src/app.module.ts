@@ -7,6 +7,7 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { QuizModule } from './modules/quiz/quiz.module';
 import { ImgUploadModule } from './core/img-upload/img-upload.module';
+import { MailerModule } from './core/mailer/mailer.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ImgUploadModule } from './core/img-upload/img-upload.module';
     AuthModule,
     QuizModule,
     ImgUploadModule,
+    MailerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

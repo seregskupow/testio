@@ -9,12 +9,10 @@ import { googlePayload } from './types';
 export class AuthService {
   constructor(private readonly userService: UsersService) {}
   async validateUser(userEmail: string, pass: string): Promise<UserDto> {
-    // find if user exist with this email
     const user = await this.userService.findOneByEmail(userEmail);
     if (!user) {
       return null;
     }
-    // find if user password match
     const match = await this.comparePassword(pass, user.password);
     if (!match) {
       return null;
@@ -23,13 +21,10 @@ export class AuthService {
   }
 
   async createUser(user): Promise<UserDto> {
-    // hash the password
     const pass = await this.hashPassword(user.password);
 
-    // create the user
     const newUser = await this.userService.create({ ...user, password: pass });
 
-    // return newUser;
     return newUser;
   }
 
@@ -37,7 +32,13 @@ export class AuthService {
     const { email, firstName: name, picture: avatar, googleId } = payload;
 
     const user = await this.userService.findOneByEmail(email);
-    if (user) return await this.userService.update(email, name, avatar);
+    if (user)
+      return await this.userService.update({
+        id: user.id,
+        email,
+        name,
+        avatar,
+      });
 
     const newUser = await this.userService.create({
       email,
