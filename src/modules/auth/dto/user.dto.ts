@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsString, IsEmail, IsInt } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsEmail,
+  IsInt,
+  IsBoolean,
+} from 'class-validator';
 
 export class SessionUserDto {
   @IsNotEmpty()

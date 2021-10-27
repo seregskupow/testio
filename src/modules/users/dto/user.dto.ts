@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsEmail,
   IsNotEmpty,
   IsNumber,
@@ -41,6 +42,11 @@ export class UserDto {
   @IsOptional()
   @IsString({ message: 'GithubId should be STRING type' })
   readonly githubId?: string;
+
+  @IsNotEmpty()
+  @IsOptional()
+  @IsBoolean()
+  readonly activated?: false;
 
   @Exclude({ toPlainOnly: true })
   createdAt?: Date;

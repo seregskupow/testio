@@ -82,4 +82,18 @@ export class UsersService {
         );
       });
   }
+
+  async activateUser(email: string): Promise<UserDto> {
+    return await this.userRepository
+      .findOne<User>({
+        where: { email },
+      })
+      .then(async (user) => {
+        user.activated = true;
+        await user.save();
+        return plainToClass(UserDto, user['dataValues'], {
+          ignoreDecorators: true,
+        });
+      });
+  }
 }

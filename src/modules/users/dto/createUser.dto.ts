@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsEmail,
   IsNotEmpty,
   IsOptional,
@@ -29,4 +30,9 @@ export class CreateUserDto {
   @IsOptional()
   @IsString({ message: 'Avatar should be STRING type' })
   googleId?: string;
+
+  @IsNotEmpty()
+  @IsOptional()
+  @IsBoolean()
+  readonly activated?: boolean;
 }

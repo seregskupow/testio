@@ -88,9 +88,22 @@ export class AuthController {
     return res.json({ msg: 'logged out' });
   }
 
-  @Get('email/:email')
+  @Get('confirmemail/:email')
   async email(@Param('email') email) {
-    await this.mailService.confirmEmail(email, Math.random().toString());
+    await this.authService.sendEmailConfirmation(email);
     return 'complete';
+  }
+
+  @Get('activateuser/:token')
+  @UseInterceptors(ClassSerializerInterceptor)
+  async confirmEmail(@Param('token') token, @Req() req) {
+    const user = await this.authService.activateUser(token);
+
+    req.logIn(user, (err) => {
+      if (err) {
+        throw new InternalServerErrorException('Passport login error occured');
+      }
+    });
+    return req.user;
   }
 }

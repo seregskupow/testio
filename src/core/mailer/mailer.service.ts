@@ -12,7 +12,7 @@ export class MailService {
         text: 'welcome', // plaintext body
         template: './confirmEmail',
         context: {
-          link: confirmCode,
+          link: 'http://localhost:5000/api/v1/auth/confirmemail/' + confirmCode,
         },
       })
       .catch((e) => {

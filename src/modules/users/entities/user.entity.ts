@@ -37,6 +37,13 @@ export class User extends Model {
   })
   avatar: string;
 
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  })
+  activated: boolean;
+
   @Exclude()
   @Column({
     type: DataType.STRING,
