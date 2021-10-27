@@ -229,11 +229,14 @@ const ImageEditor: FC<IImageEditor> = ({
             <div className={styles.form__controls}>
               <Button
                 className='mr-5'
-                fontSize={2}
-                text='Save'
+                fontSize={1.5}
+                text='Apply'
                 color='contrast'
                 event={() => {
-                  setMessage({ type: 'success', msg: 'Avatar changed' });
+                  setMessage({
+                    type: 'success',
+                    msg: 'Changes applied successfully',
+                  });
                   getImage(Editor.getImage().toDataURL());
                   getOptions({ rotate, scale, position });
                   closePicker();
@@ -241,7 +244,7 @@ const ImageEditor: FC<IImageEditor> = ({
               />
               <Button
                 className='ml-5'
-                fontSize={1.8}
+                fontSize={1.5}
                 text='Close'
                 event={closePicker}
               />

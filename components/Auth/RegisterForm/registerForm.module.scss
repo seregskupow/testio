@@ -42,8 +42,10 @@
 .img__controls {
 	display: flex;
 	justify-content: center;
+	flex-wrap: wrap;
 
 	& button {
-		margin: 0 5px;
+		margin: 5px 5px;
+		flex-grow: 1;
 	}
 }

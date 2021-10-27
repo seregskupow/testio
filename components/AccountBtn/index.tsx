@@ -73,6 +73,8 @@ const UserBtn = () => {
 
   useEffect(() => {
     let img = new Image();
+    img.referrerPolicy = 'no-referrer';
+    img.crossOrigin = 'anonymous';
     img.onerror = () => {
       setImgError(true);
     };
@@ -91,7 +93,14 @@ const UserBtn = () => {
       {imgError === true ? (
         <ShortLogo userName={userName} />
       ) : (
-        <NextImage src={userImage} width={384} height={384} alt='avatar' />
+        <NextImage
+          src={userImage}
+          crossOrigin='anonymous'
+          referrerPolicy='no-referrer'
+          width={384}
+          height={384}
+          alt='avatar'
+        />
       )}
       <span>{userName}</span>
     </div>

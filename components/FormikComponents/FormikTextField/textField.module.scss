@@ -1,15 +1,31 @@
-.formik__text__field {
-	width: 100%;
-}
 .form__field__wrapper {
 	position: relative;
+	width: 100%;
 	border-radius: 15px;
 	box-shadow: $smallShadow;
+	box-sizing: border-box;
 
 	&:focus-within {
 		& .form__field {
 			border-color: var(--color-contrast);
 			box-shadow: 0 0 1px 4px rgba(var(--color-contrast-rgb), 0.3);
+		}
+	}
+
+	& .show__password__btn {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		right: 1rem;
+
+		display: flex;
+		align-items: center;
+
+		& svg {
+			font-size: 20px;
+			color: var(--color-contrast);
+
+			cursor: pointer;
 		}
 	}
 }
@@ -28,7 +44,7 @@
 	width: 100%;
 	height: 50px;
 	background-color: $darkWhite;
-	border: 3px solid transparent;
+	border: 3px solid var(--color-border);
 	padding: 0 15px;
 
 	border-radius: 15px;
@@ -37,11 +53,18 @@
 
 	box-sizing: border-box;
 	transition: background 0.3s ease;
+
+	&[data-type="password"] {
+		padding-right: calc(1rem + 20px);
+	}
+
 	&:invalid {
 		color: $red;
 	}
-	&:not(:last-child) {
-		margin-bottom: 15px;
+
+	&:disabled {
+		background-color: var(--color-field);
+		color: $white;
 	}
 }
 .form__input__error {

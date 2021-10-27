@@ -2,7 +2,12 @@ import * as yup from 'yup';
 
 export const validationSchema = {
   LOGIN: yup.object({
-    email: yup.string().email('Email is invalid').required('Email is required'),
+    email: yup
+      .string()
+      .email('Email is invalid')
+      .min(3, 'Min length should be 3 characters')
+      .max(254, 'Max length should be 254 characters')
+      .required('Email is required'),
     password: yup
       .string()
       .min(8, 'Min length should be 8 characters')
@@ -19,7 +24,12 @@ export const validationSchema = {
       .min(6, 'Min length should be 6')
       .max(20, 'Max length should be 15')
       .required(),
-    email: yup.string().email('Email is invalid').required('Email is required'),
+    email: yup
+      .string()
+      .email('Email is invalid')
+      .min(3, 'Min length should be 3 characters')
+      .max(254, 'Max length should be 254 characters')
+      .required('Email is required'),
     password: yup
       .string()
       .min(8, 'Min length should be 8')
@@ -39,10 +49,15 @@ export const validationSchema = {
   PROFILE: yup.object({
     name: yup
       .string()
-      .min(6, 'Min length should be 6')
+      .min(4, 'Min length should be 4')
       .max(20, 'Max length should be 15')
       .required(),
-    email: yup.string().email('Email is invalid').required('Email is required'),
+    email: yup
+      .string()
+      .email('Email is invalid')
+      .min(3, 'Min length should be 3 characters')
+      .max(254, 'Max length should be 254 characters')
+      .required('Email is required'),
   }),
   CHANGE_PASSWORD: yup.object({
     oldPassword: yup

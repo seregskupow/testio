@@ -6,7 +6,7 @@ export const setTheme = () => {
     if (window.matchMedia) {
       theme = window.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'
-        : 'light';
+        : '';
       document.body.classList.add(theme);
       localStorage.setItem('theme', theme);
     }
