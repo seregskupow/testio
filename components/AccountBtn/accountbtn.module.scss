@@ -77,10 +77,12 @@
 			display: inline-block;
 		}
 	}
-	& img {
+	& .user__img {
 		width: 40px;
 		height: 40px;
-		object-fit: cover;
+		& img {
+			object-fit: cover;
+		}
 	}
 }
 .user__dropdown {

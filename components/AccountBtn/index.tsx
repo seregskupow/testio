@@ -93,14 +93,17 @@ const UserBtn = () => {
       {imgError === true ? (
         <ShortLogo userName={userName} />
       ) : (
-        <NextImage
-          src={userImage}
-          crossOrigin='anonymous'
-          referrerPolicy='no-referrer'
-          width={384}
-          height={384}
-          alt='avatar'
-        />
+        <div className={styles.user__img}>
+          <NextImage
+            className={styles.user__img}
+            src={userImage}
+            crossOrigin='anonymous'
+            referrerPolicy='no-referrer'
+            width={384}
+            height={384}
+            alt='avatar'
+          />
+        </div>
       )}
       <span>{userName}</span>
     </div>
