@@ -27,21 +27,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const { authenticateUser } = useActions();
 
   const getLayout = Component.getLayout ?? ((page) => page);
-  const user: User = useMemo(() => {
-    return {
-      name: 'sereg',
-      id: 45,
-      email: 'email@email.com',
-      avatar:
-        'https://pbs.twimg.com/profile_images/1045580248467886080/_uwwJdr3.jpg',
-    };
-  }, []);
   const dispatch = useDispatch();
   useEffect(() => {
     progressBar.on(router);
     setTheme();
-    // setUser(user);
-    // user && setLoggedIn(true);
     authenticateUser();
     return () => {
       progressBar.off(router);

@@ -40,12 +40,12 @@ export const userSlice = createSlice({
   },
   extraReducers: {
     // [HYDRATE]: (state, action) => {
-    //   console.log('USER', current(state), action.payload);
-    //   console.log(action.payload);
-    //   // return {
-    //   //   ...current(state),
-    //   //   ...action.payload.user,
-    //   // };
+    // console.log('USER', current(state));
+    // console.log(action.payload);
+    // return {
+    //   ...state,
+    //   ...action.payload.user,
+    // };
     //   return { ...state, ...{ name: 'Gavno' } };
     // },
   },

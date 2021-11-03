@@ -17,6 +17,7 @@ import { PageComponent } from 'interfaces';
 import StyledLink from '@/components/Controls/StyledLink';
 import Panel from '@/components/Panel';
 import { useActions } from '@/store/useActions';
+import { setMessage } from '@/store/slices/message.slice';
 interface HomeProps {
   user: User;
 }
@@ -112,6 +113,12 @@ export default Home;
 
 export const getServerSideProps: GetServerSideProps =
   wrapper.getServerSideProps((store) => async (ctx) => {
+    // store.dispatch(
+    //   setMessage({
+    //     type: '',
+    //     msg: '',
+    //   })
+    // );
     // if(!(await ensureAuth())){
     // 	return {
     // 		redirect: {

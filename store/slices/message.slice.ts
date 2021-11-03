@@ -43,18 +43,15 @@ export const messageSlice = createSlice({
     },
   },
   extraReducers: {
-    // [HYDRATE]: (state, action) => {
-    //   console.log('MESSAGE', current(state), action.payload);
-    //   console.log(action.payload);
-    //   // return {
-    //   //   ...current(state),
-    //   //   ...action.payload.message,
-    //   // };
-    //   state = {
-    //     ...current(state),
-    //     ...action.payload.message,
-    //   };
-    // },
+    [HYDRATE]: (state, action) => {
+      action.payload.message.messageArr
+        .concat(current(state).messageArr)
+        .reverse();
+      return {
+        ...state,
+        ...action.payload.message,
+      };
+    },
   },
 });
 

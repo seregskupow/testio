@@ -51,18 +51,18 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: {
-    // [HYDRATE]: (state, action) => {
-    //   console.log('AUTH', current(state), action.payload);
-    //   console.log(action.payload);
-    //   // return {
-    //   //   ...current(state),
-    //   //   ...action.payload.auth,
-    //   // };
-    //   state = {
-    //     ...current(state),
-    //     ...action.payload.auth,
-    //   };
-    // },
+    [HYDRATE]: (state, action) => {
+      // console.log('AUTH', current(state), action.payload);
+      // console.log(action.payload);
+      // return {
+      //   ...current(state),
+      //   ...action.payload.auth,
+      // };
+      // state = {
+      //   ...current(state),
+      //   ...action.payload.auth,
+      // };
+    },
   },
 });
 const { setLoading, setLoggedIn, setAuthLoading } = authSlice.actions;

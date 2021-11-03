@@ -1,5 +1,5 @@
 import styles from './imageEditor.module.scss';
-import { FC, Fragment, useEffect, useRef, useState } from 'react';
+import React, { FC, Fragment, useEffect, useRef, useState } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import Button from '@/components//Controls/Button';
 import AvatarPlaceholder from '@/images/testio_placeholder.jpg';
@@ -55,6 +55,15 @@ const ImageEditor: FC<IImageEditor> = ({
   const [scale, setScale] = useState<number>(imgOptions.scale);
   const [rotate, setRotate] = useState<number>(imgOptions.rotate);
   const [position, setPosition] = useState(imgOptions.position);
+  const scrollZoom = (e: React.WheelEvent) => {
+    let scaleVal: number = scale + (e.deltaY > 0 ? -0.1 : 0.1);
+    if (scaleVal > 10 || scaleVal < 1) return;
+    scaleVal = parseFloat(Math.min(Math.max(scaleVal, 1), 10).toFixed(2));
+    setScale(scaleVal);
+  };
+  useEffect(() => {
+    scale === 1 && setPosition({ x: 0.5, y: 0.5 });
+  }, [scale]);
   useEffect(() => {
     disableScrolling();
     return () => {
@@ -82,7 +91,7 @@ const ImageEditor: FC<IImageEditor> = ({
       >
         <Panel>
           <div className={styles.avatar__picker__inner}>
-            <div className={styles.editor__wrapper}>
+            <div className={styles.editor__wrapper} onWheel={scrollZoom}>
               <AvatarEditor
                 ref={(editor) => (Editor = editor)}
                 image={image}
